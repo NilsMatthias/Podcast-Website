@@ -87,8 +87,8 @@ function insertSearchResults(data) {
         podcastImage.src = podcast.layoutImageURL;
         podcastImage.className = 'img'; // Added class for image styling
 
-        podcastLink.appendChild(titleDiv);
         podcastLink.appendChild(podcastImage);
+        podcastLink.appendChild(titleDiv);
         podcastLink.appendChild(descriptionDiv);
 
         podcastLink.href = `podcastDash.html?id=${encodeURIComponent(podcast.id)}&title=${encodeURIComponent(podcast.title)}&description=${encodeURIComponent(podcast.description)}&image=${encodeURIComponent(podcast.layoutImageURL)}`;
