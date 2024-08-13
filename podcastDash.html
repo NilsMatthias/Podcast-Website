@@ -7,7 +7,7 @@
     <title>Podcast Details</title>
     <link rel="stylesheet" type="text/css" href="style.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script src="scripts/main.js"> </script>
+    <script src="scripts/main.js"></script>
 </head>
 <body>
 
@@ -23,9 +23,8 @@
             <nav class="header-nav">
                 <ul class="nav-list">
                     <li><a href="index.html">Home</a></li>
-                    <li><a href="">Favourites</a></li>
-                    <li><a href="">Settings</a></li>
-                    <li><a href="">Help</a></li>
+                    <li><a href="fav.html">Favourites</a></li>
+                    <li><a href="hilfe.html">Help</a></li>
                 </ul>
             </nav>
             <div class="header-actions">
@@ -45,30 +44,49 @@
         <nav class="drawer-nav">
             <ul class="drawer-list">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="">Favourites</a></li>
-                <li><a href="">Settings</a></li>
-                <li><a href="">Help</a></li>
+                <li><a href="fav.html">Favourites</a></li>
+                <li><a href="hilfe.html">Help</a></li>
             </ul>
         </nav>
     </div>
     <main class ="layout-content">
-        <div class="Page-content podcastDashPage">
-            <h1 id="podcast-title" class="podcast-title-dash"></h1>
-            <img id="podcast-image" class="podcast-image-dash" src="" alt="Podcast Image">
-            <div class="episode-info" id="episode-info"></div>
-            <div class="play-button" id="play-button">
-                <span class="material-icons">play_circle_filled</span>
+            <div id="podcast-search" class="podcast-search">
+                <!--label for="search-title">Title:</label-->
+                <input type="text" name="Suchtext" id="search-title" class="search-bar" placeholder="Title...">
+                <button onclick="searchPodcasts()">Search</button>
             </div>
+            <div id="status-message"></div>
+            <div id="podcast-list" class="grid"></div>
 
+            
+        <div class="Page-content podcastDashPage flex">
+            <img id="podcast-image" class="podcast-image-dash" src="" alt="Podcast Image">
+
+            <div class="title-description">
+                <h1 id="podcast-title" class="podcast-title-dash"></h1>
+                <p id="podcast-description" class="description-dash"></p>
+            </div>
+        </div>
+        <div class="flex2 episode-dashboard">
+            <h2>Episodenübersicht</h2>
+            <div id="episodes-div">
+                <div class="episode-info" id="episode-info"></div>
+
+            </div>
+            <!--div class="play-button" id="play-button">
+                <span class="material-icons">play_circle_filled</span>
+            </div-->
+        
             <div class="audio-player" id="audio-player-container">
                 <audio id="audio-player" controls>
                     <source id="audio-source" src="" type="audio/mpeg">
                     Your browser does not support the audio element.
                 </audio>
             </div>
-            <p id="podcast-description" class="description-dash"></p>
-            <div id="podcast-summary" class="summary-dash"></div>
+            <!--div id="podcast-summary" class="summary-dash"></div-->
         </div>
+            
+        
     </main>
     <script>
         document.getElementById('menuButton').addEventListener('click', function() {
@@ -83,13 +101,18 @@
             }
         });
         document.getElementById('searchButton').addEventListener('click', function() {
-            document.getElementById('podcast-search').classList.toggle('visible');
-        });
+            var searchBar = document.getElementById('podcast-search');
+            searchBar.classList.toggle('visible');
+            if (searchBar.classList.contains('visible')) {
+            document.getElementById('search-title').focus();
+            }       
+         });
 
         function getQueryParams() {
             const params = new URLSearchParams(window.location.search);
             return {
                 title: params.get('title'),
+                id: params.get('id'),
                 episode: params.get('episode'),
                 date: params.get('date'),
                 description: params.get('description'),
@@ -108,17 +131,65 @@
             document.getElementById('episode-info').textContent = `Episode ${podcastDetails.episode} - ${podcastDetails.date}`;
             document.getElementById('podcast-description').textContent = podcastDetails.description;
             document.getElementById('podcast-image').src = podcastDetails.image;
-            document.getElementById('audio-source').src = podcastDetails.audio;
-            document.getElementById('audio-player').load();
-            document.getElementById('podcast-summary').innerHTML = podcastDetails.summary;
+            document.getElementById('audio-source').src = "";
+            fetchAudio(podcastDetails.id)
         }
 
-        window.onload = setPodcastDetails;
-
+        window.onload = function() {
+            setPodcastDetails();
+    
+    
+            const searchInput = document.getElementById('search-title');
+            if (searchInput) {
+                searchInput.addEventListener('keydown', function(event) {
+                    if (event.key === 'Enter') {
+                        console.log("Enter key pressed");
+                        searchPodcasts();
+                    }
+                });
+            } else {
+                console.error("Search input field not found");
+            }
+        };
         document.getElementById('play-button').addEventListener('click', function() {
             document.getElementById('audio-player-container').classList.toggle('visible');
             document.getElementById('audio-player').play();
         });
+
+        async function fetchAudio(id) {
+            let url = new URL('https://api.fyyd.de/0.2/podcast/episodes');
+            url.searchParams.append('podcast_id', getQueryParams().id);
+            //url.searchParams.append('count', '10');
+            console.log('URL:', url.href);
+            try {
+            const response = await fetch(url);
+            const data = await response.json();
+            insertEpisodes(data);
+            document.getElementById('audio-player').load();
+            } catch (error) {
+            console.error('Error fetching podcasts:', error);
+            document.getElementById('podcast-list').innerHTML = '<p>Error fetching podcasts. Please try again later.</p>';
+
+            }
+}
+         function insertEpisodes(data) {
+            const resultsDiv = document.getElementById('episodes-div');
+            resultsDiv.innerHTML = '';
+            data.data.episodes.forEach(element => {
+            console.log("Episode")
+            const episodeNameDiv = document.createElement('div');
+            episodeNameDiv.innerHTML = element.title;
+            const audioElement = document.createElement('audio');
+            audioElement.controls = true;
+            const sourceElement = document.createElement('source');
+            sourceElement.src = element.enclosure;
+            sourceElement.type = 'audio/mpeg';
+            audioElement.appendChild(sourceElement);
+            resultsDiv.appendChild(episodeNameDiv);
+            resultsDiv.appendChild(audioElement);
+        });
+        }
+
 
         
     </script>

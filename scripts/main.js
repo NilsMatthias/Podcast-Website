@@ -7,6 +7,19 @@ window.onload = function() {
     fetchRecommendedPodcasts();
     const resultsDiv = document.getElementById('podcast-list');
     resultsDiv.innerHTML = '<p class="loading-message">Loading recommended Podcasts...</p>';
+
+    const searchInput = document.getElementById('search-title');
+    if (searchInput) {
+        searchInput.addEventListener('keydown', function(event) {
+            if (event.key === 'Enter') {
+                console.log("Enter key pressed");
+                searchPodcasts();
+            }
+        });
+    } else {
+        console.error("Search input field not found");
+    }
+
 };
 
 function cloneImage(event) {
@@ -18,7 +31,7 @@ function cloneImage(event) {
 function searchPodcasts() {
     const searchTitle = document.getElementById('search-title').value;
     const resultsDiv = document.getElementById('podcast-list');
-    resultsDiv.innerHTML = '<p>Search is running...</p>';
+    resultsDiv.innerHTML = '<p class="loading-message">Search is running...</p>';
     fetchPodcasts(searchTitle);
 }
 
@@ -33,14 +46,15 @@ async function fetchPodcasts(title) {
         console.log(data);
     } catch (error) {
         console.error('Error fetching podcasts:', error);
-        document.getElementById('podcast-list').innerHTML = '<p>Error fetching podcasts. Please try again later.</p>';
+        document.getElementById('podcast-list').innerHTML = '<p class="loading-message">Error fetching podcasts. Please try again later.</p>';
 
     }
 }
 
 async function fetchRecommendedPodcasts() {
-    let url = new URL('https://api.fyyd.de/0.2/search/podcast/');
-    url.searchParams.append('title', makeid(1));
+    let url = new URL('https://api.fyyd.de/0.2/podcasts/');
+    url.searchParams.append('page',getRandomInt(1370));
+    url.searchParams.append('count',30);
     console.log('URL:', url.href);
     try {
         const response = await fetch(url);
@@ -49,9 +63,13 @@ async function fetchRecommendedPodcasts() {
         console.log(data);
     } catch (error) {
         console.error('Error fetching recommended podcasts:', error);
-        document.getElementById('podcast-list').innerHTML = '<p>Error fetching recommended podcasts. Please try again later.</p>';
+        document.getElementById('podcast-list').innerHTML = '<p class="loading-message">Error fetching recommended podcasts. Please try again later.</p>';
 
     }
+}
+
+function getRandomInt(max){
+    return Math.floor(Math.random() * max);
 }
 
 function insertSearchResults(data) {
@@ -69,12 +87,12 @@ function insertSearchResults(data) {
         podcastImage.src = podcast.layoutImageURL;
         podcastImage.className = 'img'; // Added class for image styling
 
-        podcastDiv.appendChild(titleDiv);
-        podcastDiv.appendChild(podcastImage);
-        podcastDiv.appendChild(descriptionDiv);
+        podcastLink.appendChild(titleDiv);
+        podcastLink.appendChild(podcastImage);
+        podcastLink.appendChild(descriptionDiv);
 
-        podcastLink.href = `podcastDash.html?title=${encodeURIComponent(podcast.title)}&description=${encodeURIComponent(podcast.description)}&image=${encodeURIComponent(podcast.layoutImageURL)}`;
-        podcastLink.textContent = "Zum Podcast";
+        podcastLink.href = `podcastDash.html?id=${encodeURIComponent(podcast.id)}&title=${encodeURIComponent(podcast.title)}&description=${encodeURIComponent(podcast.description)}&image=${encodeURIComponent(podcast.layoutImageURL)}`;
+       
         podcastDiv.appendChild(podcastLink);
 
         resultsDiv.appendChild(podcastDiv);

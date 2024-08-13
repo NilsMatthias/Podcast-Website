@@ -10,8 +10,8 @@ body {
     position: fixed;
     top: 0;
     width: 100%;
-    background-color: #fff;
-    border-bottom: 1px solid #ddd;
+    background-color: white;
+    border-bottom: 1px solid #797272;
     z-index: 1000;
 }
 
@@ -33,8 +33,6 @@ body {
 .header-title{
     align-items: center;
     font-size:large;
-    
-
 }
 
 .header-nav {
@@ -123,23 +121,54 @@ main{
     justify-content: center;
     padding: 20px;
     width: 100%;
+
 }
 
 .podcast-search {
-    width:100%;
     display: flex;
     display: none;
-    margin-bottom: 20px;
+    margin-bottom: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    align-items: center;
+    justify-content: center;
+
+
+}
+
+.podcast-search input[type="text"] {
+    height: 20px;
+    border: 2px solid grey;
+    padding: 0 10px;
+    outline: none;
+
+}
+.podcast-search input[type="text"]:focus {
+    border: 2px solid black;
+
+}
+
+.search-bar {
+    border-radius: 4px;
+    font-size: 14px;
+    
 
 }
 .podcast-search button {
-    font-size: 16px;
-    border: none;
+    padding: 0 10px;
+    font-size: 14px;
+    height: 24px;
     border-radius: 4px;
-    background-color: #000204;
-    color: white;
-    margin-left: 10px;
+    background-color: white;
+    color: black;
+    margin-left: 5px;
     cursor: pointer;
+    border: 2px solid grey;
+
+}
+.podcast-search button:focus {
+    border: 2px solid black;
+    
 }
 
 .loading-message {
@@ -154,6 +183,7 @@ main{
     grid-template-rows: repeat(auto-fit, minmax(200px, 1fr));
     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
     gap: 10px;
+    padding: 20px;
     width: 100%;
 }
 
@@ -162,9 +192,22 @@ main{
 
 .grid div {
     border: 1px solid #1d1616;
+    padding: 10px;
     text-align: center;
+    border-radius: 5px;
 }
 
+.episode-dashboard {
+    text-align: left;
+    width: 100%;
+
+
+}
+
+.dash-search-row{
+    
+    width: 100%;
+}
 
 .img {
     width: 100%;
@@ -179,7 +222,8 @@ main{
     display: flex;
     flex-direction: column;
     align-items: center;
-    padding: 20px 20px 10px 10px;
+    width: auto;
+    
 }
 .podcast-title-dash {
     margin-top: 0px;
@@ -187,6 +231,8 @@ main{
     justify-content: center;
     
 }
+
+
 
 
 
@@ -229,6 +275,11 @@ main{
     line-height: 1.5;
 }
 
+a:any-link {
+    color: black;
+    text-decoration: none;
+}
+
 
 @media (min-width: 990px) {
     .header-nav {
@@ -240,6 +291,61 @@ main{
     .drawer {
         display: none;
     }
+
+    .img {
+        margin-right: 20%;
+    }
+    .podcast-title-dash {
+        margin-top: 0px;
+        align-items: center;
+        justify-content: center;
+        width: 80%;
+        margin-left: 5%;
+        margin-top: 20px;
+    }
+    .description-dash {
+        width: 80%;
+        margin-left: 5%;
+    }
+    
+    .podcastDashPage{
+        margin: 0;
+        padding: 0;
+        gap: 0.5em;
+        list-style: none;
+        font: 1.2rem sans-serif;
+        
+
+        display: block;
+        height: 100%;
+        padding: 0.2em 0.5em;
+        text-decoration: none;
+        box-sizing: border-box;
+        border-radius: 5px;
+        
+        text-align: center;
+        align-content: center;
+    }
+
+    
+    .podcastDashPage.flex {
+        display: flex;
+        flex: 1 0 1em;
+    }
+
+    .podcast-image-dash {
+        margin-top: -20px;
+        margin-bottom: 20px;
+        margin-right: 5%;
+        margin-left: 3%;
+    
+    }
+
+    .episode-dashboard {
+        margin-left: 7%;
+        margin-top: 3%;
+    }
+    
 }
 
 @media (min-width: 591px) {
