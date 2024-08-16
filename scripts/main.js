@@ -5,6 +5,7 @@ var userLang = navigator.language || navigator.userLanguage;
 window.onload = function() {
     console.log("onLoad Function");
     getCategories();
+    fetchRecommendedPodcasts();
     const resultsDiv = document.getElementById('podcast-list');
     resultsDiv.innerHTML = '<p class="loading-message">Loading recommended Podcasts...</p>';
 
