@@ -4,7 +4,6 @@ var userLang = navigator.language || navigator.userLanguage;
 
 window.onload = function() {
     console.log("onLoad Function");
-    fetchRecommendedPodcasts();
     getCategories();
     const resultsDiv = document.getElementById('podcast-list');
     resultsDiv.innerHTML = '<p class="loading-message">Loading recommended Podcasts...</p>';
@@ -121,16 +120,76 @@ function makeid(length) {
 }
 async function getCategories() {
     let url = new URL('https://api.fyyd.de/0.2/categories');
-    //url.searchParams.append('count', '10');
     console.log('URL:', url.href);
     try {
-    const response = await fetch(url);
-    const data = await response.json();
-    data.data.forEach(element => {
-        console.log(element.name);
-    });
+        const response = await fetch(url);
+        const data = await response.json();
+        const div = document.getElementById("categorie-list");
+
+        // Clear any existing content in the div
+        div.innerHTML = '';
+
+        data.data.forEach(element => {
+            console.log(element.name + element.id);
+
+            // Create button for each category
+            const catBtn = document.createElement('input');
+            catBtn.setAttribute("type", "button");
+            catBtn.setAttribute("value", element.name);
+
+            // Add click event listener with a function reference
+            catBtn.addEventListener('click', function() {
+                fetchCategoryPodcasts(element.id);
+            });
+
+            div.appendChild(catBtn);
+        });
     } catch (error) {
-    console.error('Error fetching podcasts:', error);
-    document.getElementById('podcast-list').innerHTML = '<p>Error fetching podcasts. Please try again later.</p>';
+        console.error('Error fetching categories:', error);
+        document.getElementById('podcast-list').innerHTML = '<p>Error fetching podcasts. Please try again later.</p>';
     }
+}
+
+async function fetchCategoryPodcasts(id) {
+    let url = new URL('https://api.fyyd.de/0.2/category');
+    url.searchParams.append('category_id',id);
+    console.log('URL:', url.href);
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        insertCategorySearchResults(data);
+        
+    } catch (error) {
+        console.error('Error fetching category podcasts:', error);
+        document.getElementById('podcast-list').innerHTML = '<p class="loading-message">Error fetching category podcasts. Please try again later.</p>';
+
+    }
+}
+
+function insertCategorySearchResults(data) {
+    const resultsDiv = document.getElementById('podcast-list');
+    resultsDiv.innerHTML = '';
+    console.log(data.data.podcasts)
+    data.data.podcasts.forEach(podcasts => {
+        const podcastDiv = document.createElement('div');
+        const titleDiv = document.createElement('h2');
+        const descriptionDiv = document.createElement('p');
+        const podcastImage = document.createElement('img');
+        const podcastLink = document.createElement('a');
+
+        titleDiv.textContent = podcasts.title;
+        descriptionDiv.textContent = truncateText(podcasts.description, 40);
+        podcastImage.src = podcasts.layoutImageURL;
+        podcastImage.className = 'img'; // Added class for image styling
+
+        podcastLink.appendChild(podcastImage);
+        podcastLink.appendChild(titleDiv);
+        podcastLink.appendChild(descriptionDiv);
+
+        podcastLink.href = `podcastDash.html?id=${encodeURIComponent(podcasts.id)}&title=${encodeURIComponent(podcasts.title)}&description=${encodeURIComponent(podcasts.description)}&image=${encodeURIComponent(podcasts.layoutImageURL)}`;
+       
+        podcastDiv.appendChild(podcastLink);
+
+        resultsDiv.appendChild(podcastDiv);
+    });
 }
