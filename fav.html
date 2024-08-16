@@ -106,7 +106,7 @@
         const podcastTitle = document.createElement('h2');
         const podcastImage = document.createElement('img');
         const removeBtn = document.createElement('input');
-        
+        const link = document.createElement("a")
         removeBtn.setAttribute("type", "button");
         removeBtn.setAttribute("value", "Remove");
 
@@ -116,13 +116,15 @@
             // Optionally, remove the element from the DOM
             podcastDiv.remove();
         };
-
+        link.href = "podcastDash.html?id=" + id;
         podcastTitle.innerHTML = data.data.title;
         podcastImage.src = data.data.thumbImageURL;
         podcastDiv.appendChild(podcastTitle);
         podcastDiv.appendChild(podcastImage);
         podcastDiv.appendChild(removeBtn);
-        div.appendChild(podcastDiv);
+        link.appendChild(podcastDiv)
+        div.appendChild(link);
+        
     }
     catch (error) {
         console.error('Error fetching recommended podcasts:', error);
