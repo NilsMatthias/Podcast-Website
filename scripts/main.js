@@ -77,7 +77,7 @@ function insertSearchResults(data) {
     resultsDiv.innerHTML = '';
     data.data.forEach(podcast => {
         const podcastDiv = document.createElement('div');
-        const titleDiv = document.createElement('h2');
+        const titleDiv = document.createElement('h4');
         const descriptionDiv = document.createElement('p');
         const podcastImage = document.createElement('img');
         const podcastLink = document.createElement('a');
@@ -89,7 +89,7 @@ function insertSearchResults(data) {
 
         podcastLink.appendChild(podcastImage);
         podcastLink.appendChild(titleDiv);
-        podcastLink.appendChild(descriptionDiv);
+        //podcastLink.appendChild(descriptionDiv);
 
         podcastLink.href = `podcastDash.html?id=${encodeURIComponent(podcast.id)}&title=${encodeURIComponent(podcast.title)}&description=${encodeURIComponent(podcast.description)}&image=${encodeURIComponent(podcast.layoutImageURL)}`;
        
