@@ -5,6 +5,7 @@ var userLang = navigator.language || navigator.userLanguage;
 window.onload = function() {
     console.log("onLoad Function");
     fetchRecommendedPodcasts();
+    getCategories();
     const resultsDiv = document.getElementById('podcast-list');
     resultsDiv.innerHTML = '<p class="loading-message">Loading recommended Podcasts...</p>';
 
@@ -117,4 +118,19 @@ function makeid(length) {
       counter += 1;
     }
     return result;
+}
+async function getCategories() {
+    let url = new URL('https://api.fyyd.de/0.2/categories');
+    //url.searchParams.append('count', '10');
+    console.log('URL:', url.href);
+    try {
+    const response = await fetch(url);
+    const data = await response.json();
+    data.data.forEach(element => {
+        console.log(element.name);
+    });
+    } catch (error) {
+    console.error('Error fetching podcasts:', error);
+    document.getElementById('podcast-list').innerHTML = '<p>Error fetching podcasts. Please try again later.</p>';
+    }
 }

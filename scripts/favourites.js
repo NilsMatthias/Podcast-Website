@@ -9,6 +9,14 @@ function addFavourite() {
         localStorage.setItem('favorites', JSON.stringify(favorites));
         alert("Podcast wurde zu den Favoriten hinzugefügt!");
     } else {
-        alert("Podcast ist bereits in den Favoriten.");
+        removeFavourite(podcastId)
     }
+}
+
+function removeFavourite(podcastId) {
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    favorites = favorites.filter(id => id !== podcastId);
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+
+    alert("Podcast wurde aus den Favoriten entfernt!");
 }
