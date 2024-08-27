@@ -117,7 +117,7 @@
             event.preventDefault();
             podcastDiv.remove();
         };
-        link.href = `podcastDash.html?id=${encodeURIComponent(id)}&title=${encodeURIComponent(data.data.title)}&description=${encodeURIComponent(data.data.description)}&image=${encodeURIComponent(data.data.layoutImageURL)}`;
+        link.href = `podcastDash.html?id=${encodeURIComponent(id)}`;
         podcastTitle.innerHTML = data.data.title;
         podcastImage.src = data.data.layoutImageURL;
         podcastDiv.appendChild(podcastImage);
