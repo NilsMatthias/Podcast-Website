@@ -111,15 +111,15 @@
         removeBtn.setAttribute("type", "button");
         removeBtn.setAttribute("value", "Remove");
 
-        // Use a function to properly handle the podcastId
+        //remove Btn Click Funktion
         removeBtn.onclick = function() {
             removeFavourite(id);
-            // Optionally, remove the element from the DOM
+            event.preventDefault();
             podcastDiv.remove();
         };
-        link.href = "podcastDash.html?id=" + id;
+        link.href = `podcastDash.html?id=${encodeURIComponent(id)}&title=${encodeURIComponent(data.data.title)}&description=${encodeURIComponent(data.data.description)}&image=${encodeURIComponent(data.data.layoutImageURL)}`;
         podcastTitle.innerHTML = data.data.title;
-        podcastImage.src = data.data.thumbImageURL;
+        podcastImage.src = data.data.layoutImageURL;
         podcastDiv.appendChild(podcastImage);
         podcastDiv.appendChild(podcastTitle);
         podcastDiv.appendChild(removeBtn);
