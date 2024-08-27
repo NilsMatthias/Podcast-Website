@@ -142,7 +142,7 @@ async function getCategories() {
 
             // Add click event listener with a function reference
             catBtn.addEventListener('click', function() {
-                fetchCategoryPodcasts(element.id);
+                fetchCategoryPodcasts(element.id,element.name);
             });
 
             catBtndiv.appendChild(catBtn);
@@ -154,10 +154,12 @@ async function getCategories() {
     }
 }
 
-async function fetchCategoryPodcasts(id) {
+async function fetchCategoryPodcasts(id,name) {
     let url = new URL('https://api.fyyd.de/0.2/category');
     url.searchParams.append('category_id',id);
     console.log('URL:', url.href);
+    const resultsDiv = document.getElementById("categoryResult");
+    resultsDiv.innerHTML = 'Loading ' + name + " Content...";
     try {
         const response = await fetch(url);
         const data = await response.json();
@@ -176,19 +178,19 @@ function insertCategorySearchResults(data) {
     console.log(data.data.podcasts)
     data.data.podcasts.forEach(podcasts => {
         const podcastDiv = document.createElement('div');
-        const titleDiv = document.createElement('h2');
-        const descriptionDiv = document.createElement('p');
+        const titleDiv = document.createElement('h4');
+        //const descriptionDiv = document.createElement('p');
         const podcastImage = document.createElement('img');
         const podcastLink = document.createElement('a');
 
         titleDiv.textContent = podcasts.title;
-        descriptionDiv.textContent = truncateText(podcasts.description, 40);
+        //descriptionDiv.textContent = truncateText(podcasts.description, 40);
         podcastImage.src = podcasts.layoutImageURL;
         podcastImage.className = 'img'; // Added class for image styling
 
         podcastLink.appendChild(podcastImage);
         podcastLink.appendChild(titleDiv);
-        podcastLink.appendChild(descriptionDiv);
+        //podcastLink.appendChild(descriptionDiv);
 
         podcastLink.href = `podcastDash.html?id=${encodeURIComponent(podcasts.id)}&title=${encodeURIComponent(podcasts.title)}&description=${encodeURIComponent(podcasts.description)}&image=${encodeURIComponent(podcasts.layoutImageURL)}`;
        
