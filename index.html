@@ -8,6 +8,8 @@
     <link rel="stylesheet" type="text/css" href="style.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <script src="scripts/main.js"> </script>
+    <script src="scripts/favourites.js"> </script>
+
 </head>
 <body>
 
@@ -57,9 +59,24 @@
                 <button onclick="searchPodcasts()">Search</button>
             </div>
             <div id="status-message"></div>
+            <div class="unterüberschrift"> Empfohlene Podcasts</div>
             <div id="podcast-list" class="grid"></div>
+            <div class="unterüberschrift"> Die neusten Folgen deiner Favoriten</div>
+            <div id = "fav-div" class="favorites-fav"></div>
+            <div class="unterüberschrift"> Kategorien</div>
+            <div class="category-container" id="categoryContainer"></div>
+
       
     </main>
+
+    <footer class="footer-rahmen">
+        <div class="footer-logo">Easy Play</div>
+        <div class="footer-links">
+            <a href="fav.html">Zu deinen Favoriten</a> 
+                </br></br>
+            <a href="hilfe.html">Hilfe</a>
+        </div>
+    </footer>
     <script>
         document.getElementById('menuButton').addEventListener('click', function() {
             document.body.classList.toggle('drawer-open');
@@ -80,6 +97,8 @@
             document.getElementById('search-title').focus();
             }       
          });
+
+         
     </script>
 </body>
 </html>

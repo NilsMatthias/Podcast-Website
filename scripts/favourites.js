@@ -13,6 +13,7 @@ function addFavourite() {
     }
 }
 
+
 function removeFavourite(podcastId) {
     let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
     favorites = favorites.filter(id => id !== podcastId);

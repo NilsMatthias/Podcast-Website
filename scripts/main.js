@@ -5,7 +5,6 @@ var userLang = navigator.language || navigator.userLanguage;
 window.onload = function() {
     console.log("onLoad Function");
     fetchRecommendedPodcasts();
-    getCategories();
     const resultsDiv = document.getElementById('podcast-list');
     resultsDiv.innerHTML = '<p class="loading-message">Loading recommended Podcasts...</p>';
 
@@ -119,18 +118,63 @@ function makeid(length) {
     }
     return result;
 }
-async function getCategories() {
-    let url = new URL('https://api.fyyd.de/0.2/categories');
-    //url.searchParams.append('count', '10');
-    console.log('URL:', url.href);
+
+
+
+const categoriesApiUrl = 'https://api.fyyd.de/0.2/categories';
+const podcastsApiUrl = 'https://api.fyyd.de/0.2/podcasts?category=';
+
+async function fetchCategories() {
     try {
-    const response = await fetch(url);
-    const data = await response.json();
-    data.data.forEach(element => {
-        console.log(element.name);
-    });
+        let response = await fetch(categoriesApiUrl);
+        let categories = await response.json();
+        displayCategories(categories);
     } catch (error) {
-    console.error('Error fetching podcasts:', error);
-    document.getElementById('podcast-list').innerHTML = '<p>Error fetching podcasts. Please try again later.</p>';
+        console.error('Fehler beim Abrufen der Kategorien:', error);
     }
 }
+
+async function fetchPodcasts(categoryId) {
+    try {
+        let response = await fetch(podcastsApiUrl + categoryId);
+        let podcasts = await response.json();
+        displayPodcasts(podcasts);
+    } catch (error) {
+        console.error('Fehler beim Abrufen der Podcasts:', error);
+    }
+}
+// Funktion zur Anzeige der Kategorien
+function displayCategories(categories) {
+    const categoryContainer = document.getElementById('categoryContainer');
+    categoryContainer.innerHTML = ''; // Alte Kategorien löschen
+
+    categories.forEach(category => {
+        const categoryItem = document.createElement('div');
+        categoryItem.classList.add('category-item');
+        categoryItem.textContent = category.name;
+
+        // Eventlistener zum Laden der Podcasts nach Kategorie
+        categoryItem.addEventListener('click', () => fetchPodcasts(category.id));
+
+        categoryContainer.appendChild(categoryItem);
+    });
+}
+
+// Funktion zur Anzeige der Podcasts
+function displayPodcasts(podcasts) {
+    const podcastList = document.getElementById('podcastList');
+    podcastList.innerHTML = ''; // Alte Podcasts löschen
+
+    podcasts.forEach(podcast => {
+        const podcastItem = document.createElement('div');
+        podcastItem.classList.add('podcast-item');
+        podcastItem.textContent = podcast.title;
+
+        podcastList.appendChild(podcastItem);
+    });
+}
+
+// Kategorien abrufen beim Laden der Seite
+fetchCategories();
+
+
