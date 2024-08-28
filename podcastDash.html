@@ -141,26 +141,33 @@
             };
         }
 
-    
-         function setPodcastDetails() {
-             const podcastDetails = getQueryParams();
-             document.getElementById('podcast-title').textContent = podcastDetails.title;
-             document.getElementById('episode-info').textContent = `Episode ${podcastDetails.episode} - ${podcastDetails.date}`;
-             document.getElementById('podcast-description').textContent = podcastDetails.description;
-            document.getElementById('podcast-image').src = podcastDetails.image;
+        async function getPodcast(id)
+        {
+            let url = new URL('https://api.fyyd.de/0.2/podcast/');
+            url.searchParams.append('podcast_id', getQueryParams().id);
+            console.log('URL:', url.href);
+            try {
+            const response = await fetch(url);
+            const data = await response.json();
+            console.log(data);
+            document.getElementById('podcast-title').textContent = data.data.title;
+            document.getElementById('podcast-description').textContent = data.data.description;
+            document.getElementById('podcast-image').src = data.data.layoutImageURL;
+            } catch (error) {
+            console.error('Error fetching podcasts:', error);
+            document.getElementById('podcast-list').innerHTML = '<p>Error fetching podcasts. Please try again later.</p>';
 
-             document.getElementById('podcast-date').textContent = `Erscheinungsdatum: ${podcastDetails.date}`;
-             document.getElementById('podcast-category').textContent = `Kategorien: ${podcastDetails.category}`;
-             document.getElementById('podcast-producer').textContent = `Sender: ${podcastDetails.producer}`;
-            document.getElementById('podcast-name').textContent = `Podcast: ${podcastDetails.podcastName}`;
-
-             document.getElementById('audio-source').src = "";
-             fetchAudio(podcastDetails.id)
+            }
         }
+
 
        
         window.onload = function() {
             setPodcastDetails();
+            const params = new URLSearchParams(window.location.search);
+            const id = params.get('id')
+            getPodcast(id);
+            fetchAudio(id);
     
     
             const searchInput = document.getElementById('search-title');
