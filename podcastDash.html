@@ -60,19 +60,25 @@
 
             
         <div class="Page-content podcastDashPage flex">
-            <img id="podcast-image" class="podcast-image-dash" src="" alt="Podcast Image">
-
-            <div class="title-description">
+            <div class="podcasts-details-left">
+                <img id="podcast-image" class="podcast-image-dash" src="" alt="Podcast Image">
+                <p id="podcast-date" class="podcast-date"></p>
+                <p id="podcast-category" class="podcast-category"></p>
+                <p id="podcast-producer" class="podcast-producer"></p>
+                <p id="podcast-name" class="podcast-name"></p>
+            </div>
+            <div class="placeholder"></div>
+            <div class="title-description podcast-details-right">
                 <h1 id="podcast-title" class="podcast-title-dash"></h1>
                 <p id="podcast-description" class="description-dash"></p>
-                <input id="clickMe" type="button" value="zu Favoriten hinzufügen" onclick="addFavourite();" />
+                <input id="play-button" class="button-play" type="button" value="play" onclick="playAudio();"/>
+                <input id="clickMe" class="button-fav" type="button" value="add to favorite" onclick="addFavourite();" />
             </div>
         </div>
         <div class="flex2 episode-dashboard">
             <h2>Episodenübersicht</h2>
             <div id="episodes-div">
                 <div class="episode-info" id="episode-info"></div>
-
             </div>
             <!--div class="play-button" id="play-button">
                 <span class="material-icons">play_circle_filled</span>
@@ -85,6 +91,12 @@
                 </audio>
             </div>
             <!--div id="podcast-summary" class="summary-dash"></div-->
+        </div>
+        <div class="audio-player-bar" id="audio-player-bar audio-player-container">
+            <audio id="audio-player" controls>
+                <source id="audio-source" src="" type="audio/mpeg">
+                Your browser does not support the audio element.
+            </audio>
         </div>
             
         
@@ -119,23 +131,34 @@
                 description: params.get('description'),
                 image: params.get('image'),
                 audio: params.get('audio'),
-                summary: params.get('summary')
+                summary: params.get('summary'),
+                category: params.get('category'),
+                producer: params.get('producer'),
+                podcastName: params.get('podcastName')
+        
 
 
             };
         }
 
     
-        function setPodcastDetails() {
-            const podcastDetails = getQueryParams();
-            document.getElementById('podcast-title').textContent = podcastDetails.title;
-            document.getElementById('episode-info').textContent = `Episode ${podcastDetails.episode} - ${podcastDetails.date}`;
-            document.getElementById('podcast-description').textContent = podcastDetails.description;
+         function setPodcastDetails() {
+             const podcastDetails = getQueryParams();
+             document.getElementById('podcast-title').textContent = podcastDetails.title;
+             document.getElementById('episode-info').textContent = `Episode ${podcastDetails.episode} - ${podcastDetails.date}`;
+             document.getElementById('podcast-description').textContent = podcastDetails.description;
             document.getElementById('podcast-image').src = podcastDetails.image;
-            document.getElementById('audio-source').src = "";
-            fetchAudio(podcastDetails.id)
+
+             document.getElementById('podcast-date').textContent = `Erscheinungsdatum: ${podcastDetails.date}`;
+             document.getElementById('podcast-category').textContent = `Kategorien: ${podcastDetails.category}`;
+             document.getElementById('podcast-producer').textContent = `Sender: ${podcastDetails.producer}`;
+            document.getElementById('podcast-name').textContent = `Podcast: ${podcastDetails.podcastName}`;
+
+             document.getElementById('audio-source').src = "";
+             fetchAudio(podcastDetails.id)
         }
 
+       
         window.onload = function() {
             setPodcastDetails();
     
@@ -152,10 +175,31 @@
                 console.error("Search input field not found");
             }
         };
-        document.getElementById('play-button').addEventListener('click', function() {
+       /* document.getElementById('play-button').addEventListener('click', function() {
             document.getElementById('audio-player-container').classList.toggle('visible');
+            document.getElementById('audio-player-bar').classList.add('visible');
             document.getElementById('audio-player').play();
         });
+        */
+        
+
+        async function fetchPodcast(id) {
+            let url = new URL('https://api.fyyd.de/0.2/podcast/');
+            url.searchParams.append('podcast_id', getQueryParams().id);
+            //url.searchParams.append('count', '10');
+            console.log('URL:', url.href);
+            try {
+            const response = await fetch(url);
+            const data = await response.json();
+            insertEpisodes(data);
+            document.getElementById('audio-player').load();
+            } catch (error) {
+            console.error('Error fetching podcasts:', error);
+            document.getElementById('podcast-list').innerHTML = '<p>Error fetching podcasts. Please try again later.</p>';
+
+
+        }
+    }
 
         async function fetchAudio(id) {
             let url = new URL('https://api.fyyd.de/0.2/podcast/episodes');
@@ -190,20 +234,26 @@
             resultsDiv.appendChild(audioElement);
         });
         }
+
         function addFavourite() {
-    console.log("favourite");
-    const podcastId = getQueryParams().id; // Beispiel: podcastId aus den Query-Parametern holen
-    
-    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    
-    if (!favorites.includes(podcastId)) {
-        favorites.push(podcastId);
-        localStorage.setItem('favorites', JSON.stringify(favorites));
-        alert("Podcast wurde zu den Favoriten hinzugefügt!");
-    } else {
-        alert("Podcast ist bereits in den Favoriten.");
+        console.log("favourite");
+        const podcastId = getQueryParams().id; // Beispiel: podcastId aus den Query-Parametern holen
+        
+        let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        
+        if (!favorites.includes(podcastId)) {
+            favorites.push(podcastId);
+            localStorage.setItem('favorites', JSON.stringify(favorites));
+            alert("Podcast wurde zu den Favoriten hinzugefügt!");
+        } else {
+            alert("Podcast ist bereits in den Favoriten.");
+        }
     }
-}
+
+    function playAudio() {
+        console.log("play actual podcast");
+        
+    }
 
 
         

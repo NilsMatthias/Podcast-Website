@@ -270,15 +270,17 @@ body.drawer-open .drawer {
     width: auto;
     
 }
+
+.placeholder {
+    width: 15%;
+}
 .podcast-title-dash {
     margin-top: 0px;
     align-items: center;
     justify-content: center;
+   
     
 }
-
-
-
 
 
 .play-button {
@@ -319,6 +321,27 @@ body.drawer-open .drawer {
 .summary-dash {
     font-size: 1em;
     line-height: 1.5;
+}
+
+.button-play {
+    font-size: 15px;
+    border-radius: 0.5rem;
+    border-color: black;
+    background-color: white;
+    height: 30px;
+    align-items: center;
+    justify-content: center;
+
+
+}
+.button-fav {
+    font-size: 15px;
+    border-radius: 0.5rem;
+    border-color: black;
+    background-color: white;
+    height: 30px;
+
+
 }
 
 a:any-link {

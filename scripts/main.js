@@ -91,7 +91,7 @@ function insertSearchResults(data) {
         podcastLink.appendChild(titleDiv);
         //podcastLink.appendChild(descriptionDiv);
 
-        podcastLink.href = `podcastDash.html?id=${encodeURIComponent(podcast.id)}&title=${encodeURIComponent(podcast.title)}&description=${encodeURIComponent(podcast.description)}&image=${encodeURIComponent(podcast.layoutImageURL)}`;
+        podcastLink.href = `podcastDash.html?id=${encodeURIComponent(podcast.id)}&title=${encodeURIComponent(podcast.title)}&description=${encodeURIComponent(podcast.description)}&image=${encodeURIComponent(podcast.layoutImageURL)}&category=${encodeURIComponent(podcast.categories)}`;
        
         podcastDiv.appendChild(podcastLink);
 
