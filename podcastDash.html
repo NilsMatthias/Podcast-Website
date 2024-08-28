@@ -77,13 +77,20 @@
         </div>
         <div class="flex2 episode-dashboard">
             <h2>Episodenübersicht</h2>
+            <div id="audio-container">
+                <audio id="audio-player" controls>
+                    <source id="audio-source" src="" type="audio/mpeg">
+                    Your browser does not support the audio element.
+                </audio>
+            </div>
+            <div id="episodes-div"></div>
             <div id="episodes-div">
                 <div class="episode-info" id="episode-info"></div>
             </div>
             <!--div class="play-button" id="play-button">
                 <span class="material-icons">play_circle_filled</span>
             </div-->
-        
+            
             <div class="audio-player" id="audio-player-container">
                 <audio id="audio-player" controls>
                     <source id="audio-source" src="" type="audio/mpeg">
@@ -92,12 +99,9 @@
             </div>
             <!--div id="podcast-summary" class="summary-dash"></div-->
         </div>
-        <div class="audio-player-bar" id="audio-player-bar audio-player-container">
-            <audio id="audio-player" controls>
-                <source id="audio-source" src="" type="audio/mpeg">
-                Your browser does not support the audio element.
-            </audio>
-        </div>
+       
+</div>
+<div id="episodes-div"></div>
             
         
     </main>
@@ -207,40 +211,42 @@
         }
     }
 
-        async function fetchAudio(id) {
-            let url = new URL('https://api.fyyd.de/0.2/podcast/episodes');
-            url.searchParams.append('podcast_id', getQueryParams().id);
-            //url.searchParams.append('count', '10');
-            console.log('URL:', url.href);
-            try {
-            const response = await fetch(url);
-            const data = await response.json();
-            insertEpisodes(data);
-            document.getElementById('audio-player').load();
-            } catch (error) {
-            console.error('Error fetching podcasts:', error);
-            document.getElementById('podcast-list').innerHTML = '<p>Error fetching podcasts. Please try again later.</p>';
-
-            }
+    async function fetchAudio(id) {
+    let url = new URL('https://api.fyyd.de/0.2/podcast/episodes');
+    url.searchParams.append('podcast_id', getQueryParams().id);
+    console.log('URL:', url.href);
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        insertEpisodes(data);
+    } catch (error) {
+        console.error('Error fetching podcasts:', error);
+        document.getElementById('episodes-div').innerHTML = '<p>Error fetching podcasts. Please try again later.</p>';
+    }
 }
-         function insertEpisodes(data) {
-            const resultsDiv = document.getElementById('episodes-div');
-            resultsDiv.innerHTML = '';
-            data.data.episodes.forEach(element => {
-            console.log("Episode")
-            const episodeNameDiv = document.createElement('div');
-            episodeNameDiv.innerHTML = element.title;
-            const audioElement = document.createElement('audio');
-            audioElement.controls = true;
-            const sourceElement = document.createElement('source');
-            sourceElement.src = element.enclosure;
-            sourceElement.type = 'audio/mpeg';
-            audioElement.appendChild(sourceElement);
-            resultsDiv.appendChild(episodeNameDiv);
-            resultsDiv.appendChild(audioElement);
-        });
-        }
 
+function insertEpisodes(data) {
+    const resultsDiv = document.getElementById('episodes-div');
+    resultsDiv.innerHTML = '';
+
+    data.data.episodes.forEach((element, index) => {
+        const episodeButton = document.createElement('button');
+        episodeButton.textContent = element.title;
+        episodeButton.addEventListener('click', function() {
+            loadEpisode(element.enclosure);
+        });
+
+        resultsDiv.appendChild(episodeButton);
+    });
+}
+
+function loadEpisode(episodeUrl) {
+    const audioPlayer = document.getElementById('audio-player');
+    const audioSource = document.getElementById('audio-source');
+    audioSource.src = episodeUrl;
+    audioPlayer.load();
+    audioPlayer.play(); // Optional: startet das Abspielen automatisch
+}
         function addFavourite() {
         console.log("favourite");
         const podcastId = getQueryParams().id; // Beispiel: podcastId aus den Query-Parametern holen
