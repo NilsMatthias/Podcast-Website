@@ -140,6 +140,7 @@ async function getCategories() {
             const catBtn = document.createElement('input');
             catBtn.setAttribute("type", "button");
             catBtn.setAttribute("value", element.name);
+            catBtn.className = 'category-button';
 
             // Add click event listener with a function reference
             catBtn.addEventListener('click', function() {

@@ -216,29 +216,48 @@ body.drawer-open .drawer {
 
 
 }
+
+.title-fav {
+
+}
 .favorites-fav  {
     display: grid;
-    /* grid-template-rows: repeat(auto-fit, minmax(200px, 1fr));
-     grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));*/
-     gap: 20px;
-     padding: 20px;
-     width: 100%;
-     grid-auto-flow: column;   /* Elemente in einer Spalte anordnen */
-     grid-auto-columns: minmax(100px, 1fr); /* Größe der Grid-Items */
-     overflow-x: auto;   
+    grid-template-columns: repeat(4, 1fr);
+    grid-auto-rows: auto;
+    gap: 20px;
+    width: 100%;
+    row-gap: 40px;
+    padding: 20px;
+
+    
+   
 }
 .favorites-fav div {
+    border: 1px solid #1d1616;
+    padding: 10px;
     text-align: center;
     border-radius: 5px;
+
+
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
   
 }
 .favorites-fav img {
     border-radius: 1rem;
     aspect-ratio: 1 / 1;
-    display: block;
     object-fit: cover;
-    width: 100%;
-    height: auto;
+
+
+    width: 100%; /* Image takes full width of its container */
+    max-width: 200px; /* Limits the maximum width of the image */
+    height: auto; /* Keeps image proportions */
+    
+    
+   
 
 }
 
@@ -269,6 +288,10 @@ body.drawer-open .drawer {
     align-items: center;
     width: auto;
     
+}
+
+.podcasts-details-left {
+    margin-left: 20px;
 }
 
 .placeholder {
@@ -343,6 +366,38 @@ body.drawer-open .drawer {
 
 
 }
+
+
+#categoryContainer {
+    padding: 10px;
+    gap: 20px;
+    display: flex;
+    flex-wrap: wrap;
+   
+}
+    
+.category-button {
+    padding: 10px 20px; /* Innenabstand für größere Klickfläche */
+    border: 1px solid black; /* Blaue Randfarbe */
+    background-color: #FFF; /* Weiße Hintergrundfarbe */
+    color: black; /* Textfarbe passend zur Randfarbe */
+    border-radius: 5px; /* Abgerundete Ecken */
+    cursor: pointer; /* Zeiger-Cursor bei Hover */
+    transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease; /* Sanfte Übergänge bei Hover */
+    margin: 4px;
+}
+
+.category-button:hover {
+    background-color: #474846; /* Hintergrundfarbe beim Hover */
+    color: #FFF; /* Textfarbe beim Hover */
+    
+}
+
+.category-button:active {
+    background-color: black; /* Noch dunklere Farbe beim Klicken */
+    
+}
+
 
 a:any-link {
     color: black;
@@ -431,11 +486,39 @@ a:any-link {
     
 }
 
-@media (min-width: 591px) {
-    .grid div {
-       /* font-size: 14px;
-        padding: 5px;
-        */
+@media (min-width: 377px) and (max-width: 591px) {
+    .favorites-fav  {
+        display: grid;
+        grid-template-columns: repeat(2, 1fr);
+        grid-auto-rows: auto;
+        gap: 20px;
+        width: 100%;
+        row-gap: 40px;
+        padding: 20px;
+    
         
+       
+    }
+}
+@media (min-width: 592px) and (max-width: 989px) {
+    .favorites-fav  {
+        display: grid;
+        grid-template-columns: repeat(3, 1fr);
+        grid-auto-rows: auto;
+        gap: 20px;
+        width: 100%;
+        row-gap: 40px;
+        padding: 20px;
+    }
+}
+@media (max-width: 376px) {
+    .favorites-fav  {
+        display: grid;
+        grid-template-columns: repeat(1, 1fr);
+        grid-auto-rows: auto;
+        gap: 20px;
+        width: 100%;
+        row-gap: 40px;
+        padding: 20px;
     }
 }
