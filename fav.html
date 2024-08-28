@@ -92,6 +92,11 @@
                 console.log(element);
                 insertFavourite(element);
             });
+            if(favorites == null)
+            {
+                var div = document.getElementById("fav-div");
+                div.innerHTML = ""
+            }
         }
         async function insertFavourite(id) {
     var div = document.getElementById("fav-div");

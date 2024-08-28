@@ -169,12 +169,12 @@ async function getCategories() {
             // Create button for each category
             const catBtn = document.createElement('input');
             catBtn.setAttribute("type", "button");
-            catBtn.setAttribute("value", element.name);
+            catBtn.setAttribute("value", element.name_de);
             catBtn.className = 'category-button';
 
             // Add click event listener with a function reference
             catBtn.addEventListener('click', function() {
-                fetchCategoryPodcasts(element.id,element.name);
+                fetchCategoryPodcasts(element.id,element.name_de);
             });
 
             catBtndiv.appendChild(catBtn);
@@ -191,7 +191,7 @@ async function fetchCategoryPodcasts(id,name) {
     url.searchParams.append('category_id',id);
     console.log('URL:', url.href);
     const resultsDiv = document.getElementById("categoryResult");
-    resultsDiv.innerHTML = 'Loading ' + name + " Content...";
+    resultsDiv.innerHTML = "Inhalte der Kategorie " + name + " werden geladen";
     try {
         const response = await fetch(url);
         const data = await response.json();
