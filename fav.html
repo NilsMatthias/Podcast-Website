@@ -112,11 +112,12 @@
         removeBtn.setAttribute("value", "Remove");
 
         //remove Btn Click Funktion
-        removeBtn.onclick = function() {
-            removeFavourite(id);
-            event.preventDefault();
-            podcastDiv.remove();
-        };
+        removeBtn.onclick = function(event) {
+    event.preventDefault();
+    removeFavourite(id);
+    podcastDiv.remove();
+    location.reload(); // Aktualisiert die Seite
+};
         link.href = `podcastDash.html?id=${encodeURIComponent(id)}`;
         podcastTitle.innerHTML = data.data.title;
         podcastImage.src = data.data.layoutImageURL;
