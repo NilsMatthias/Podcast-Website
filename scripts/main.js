@@ -12,15 +12,49 @@ window.onload = function() {
     if (searchInput) {
         searchInput.addEventListener('keydown', function(event) {
             if (event.key === 'Enter') {
-                console.log("Enter key pressed");
                 searchPodcasts();
             }
         });
     } else {
         console.error("Search input field not found");
     }
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+            console.log(favorites)
+            favorites.forEach(element => {
+                insertFavouriteEpisodes(element);
+            });
 
 };
+async function insertFavouriteEpisodes(id){
+    var div = document.getElementById("fav-div");
+    let url = new URL('https://api.fyyd.de/0.2/podcast/episodes');
+    url.searchParams.append("podcast_id", id);
+    url.searchParams.append("count", 1);
+    console.log('URL:', url.href);
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        console.log(data.data.episodes);
+
+        const podcastDiv = document.createElement('div');
+        const podcastImage = document.createElement('img');
+        const podcastTitle = document.createElement('h4');
+        const link = document.createElement("a");
+        link.href = `podcastDash.html?id=${encodeURIComponent(id)}`;
+        podcastTitle.innerHTML = data.data.episodes[0].title;
+        podcastImage.src = data.data.layoutImageURL;
+        podcastDiv.appendChild(podcastImage);
+        podcastDiv.appendChild(podcastTitle);
+        link.appendChild(podcastDiv)
+        div.appendChild(link);
+        
+    }
+    catch (error) {
+        console.error('Error fetching recommended podcasts:', error);
+        document.getElementById('podcast-list').innerHTML = '<p class="loading-message">Error fetching recommended podcasts. Please try again later.</p>';
+    }
+}
+
 
 function cloneImage(event) {
     const clickedImage = event.target;
@@ -43,7 +77,6 @@ async function fetchPodcasts(title) {
         const response = await fetch(url);
         const data = await response.json();
         insertSearchResults(data);
-        console.log(data);
     } catch (error) {
         console.error('Error fetching podcasts:', error);
         document.getElementById('podcast-list').innerHTML = '<p class="loading-message">Error fetching podcasts. Please try again later.</p>';
@@ -60,7 +93,6 @@ async function fetchRecommendedPodcasts() {
         const response = await fetch(url);
         const data = await response.json();
         insertSearchResults(data);
-        console.log(data);
     } catch (error) {
         console.error('Error fetching recommended podcasts:', error);
         document.getElementById('podcast-list').innerHTML = '<p class="loading-message">Error fetching recommended podcasts. Please try again later.</p>';
@@ -134,8 +166,6 @@ async function getCategories() {
         div.innerHTML = '';
         const catBtndiv = document.createElement('div');
         data.data.forEach(element => {
-            console.log(element.name + element.id);
-
             // Create button for each category
             const catBtn = document.createElement('input');
             catBtn.setAttribute("type", "button");
@@ -176,7 +206,6 @@ async function fetchCategoryPodcasts(id,name) {
 function insertCategorySearchResults(data) {
     const resultsDiv = document.getElementById("categoryResult");
     resultsDiv.innerHTML = '';
-    console.log(data.data.podcasts)
     data.data.podcasts.forEach(podcasts => {
         const podcastDiv = document.createElement('div');
         const titleDiv = document.createElement('h4');
