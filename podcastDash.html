@@ -23,8 +23,8 @@
             <nav class="header-nav">
                 <ul class="nav-list">
                     <li><a href="index.html">Home</a></li>
-                    <li><a href="fav.html">Favourites</a></li>
-                    <li><a href="hilfe.html">Help</a></li>
+                    <li><a href="fav.html">Favoriten</a></li>
+                    <li><a href="hilfe.html">Hilfe</a></li>
                 </ul>
             </nav>
             <div class="header-actions">
@@ -44,8 +44,8 @@
         <nav class="drawer-nav">
             <ul class="drawer-list">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="fav.html">Favourites</a></li>
-                <li><a href="hilfe.html">Help</a></li>
+                <li><a href="fav.html">Favoriten</a></li>
+                <li><a href="hilfe.html">Hilfe</a></li>
             </ul>
         </nav>
     </div>
@@ -98,6 +98,7 @@
     </main>
     <script>
         var episodeCount = 20;
+        var URLplaying = null;
         document.getElementById('menuButton').addEventListener('click', function() {
             document.body.classList.toggle('drawer-open');
         });
@@ -247,6 +248,7 @@ function insertEpisodes(data) {
         episodeButton.textContent = element.title;
         episodeButton.addEventListener('click', function() {
             loadEpisode(element.enclosure);
+            URLplaying = element.enclosure;
         });
 
         resultsDiv.appendChild(episodeButton);
@@ -259,6 +261,7 @@ function loadEpisode(episodeUrl) {
     audioSource.src = episodeUrl;
     audioPlayer.load();
     audioPlayer.play(); // Optional: startet das Abspielen automatisch
+    
 }
         function addFavourite() {
         console.log("favourite");
@@ -275,10 +278,40 @@ function loadEpisode(episodeUrl) {
         }
     }
 
-    function playAudio() {
-        console.log("play actual podcast");
-        
+    document.addEventListener('DOMContentLoaded', function() {
+    const audioPlayer = document.getElementById('audio-player');
+    console.log(URLplaying);
+    const podcastId = getQueryParams().id + URLplaying;
+    const savedTime = localStorage.getItem(`podcast-${podcastId}-progress`);
+
+    if (savedTime) {
+        audioPlayer.currentTime = parseFloat(savedTime);
     }
+
+    audioPlayer.addEventListener('timeupdate', function() {
+        localStorage.setItem(`podcast-${podcastId}-progress`, audioPlayer.currentTime);
+    });
+
+    window.addEventListener('beforeunload', function() {
+        localStorage.setItem(`podcast-${podcastId}-progress`, audioPlayer.currentTime);
+    });
+});
+
+function loadEpisode(episodeUrl) {
+    const audioPlayer = document.getElementById('audio-player');
+    const audioSource = document.getElementById('audio-source');
+    const podcastId = getQueryParams().id;
+
+    audioSource.src = episodeUrl;
+    audioPlayer.load();
+
+    const savedTime = localStorage.getItem(`podcast-${podcastId}-progress`);
+    if (savedTime) {
+        audioPlayer.currentTime = parseFloat(savedTime);
+    }
+
+    audioPlayer.play(); // Optional: startet das Abspielen automatisch
+}
 
 
         

@@ -23,8 +23,8 @@
             <nav class="header-nav">
                 <ul class="nav-list">
                     <li><a href="index.html">Home</a></li>
-                    <li><a href="fav.html">Favourites</a></li>
-                    <li><a href="hilfe.html">Help</a></li>
+                    <li><a href="fav.html">Favoriten</a></li>
+                    <li><a href="hilfe.html">Hilfe</a></li>
                 </ul>
             </nav>
             <div class="header-actions">
@@ -44,8 +44,8 @@
         <nav class="drawer-nav">
             <ul class="drawer-list">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="fav.html">Favourites</a></li>
-                <li><a href="hilfe.html">Help</a></li>
+                <li><a href="fav.html">Favoriten</a></li>
+                <li><a href="hilfe.html">Hilfe</a></li>
             </ul>
         </nav>
     </div>
@@ -58,7 +58,7 @@
             <button onclick="searchPodcasts()">Search</button>
         </div>
         <div id="status-message"></div>
-        <div class="unterüberschrift">Favourites</div>
+        <div class="unterüberschrift"><h3>Favoriten</h3></div>
         <div id = "fav-div" class="favorites-fav"></div>
         <!--div id="podcast-list" class="grid"></div-->
   
@@ -92,10 +92,10 @@
                 console.log(element);
                 insertFavourite(element);
             });
-            if(favorites == null)
+            if(favorites == 0)
             {
                 var div = document.getElementById("fav-div");
-                div.innerHTML = ""
+                div.innerHTML = "Du hast noch keine Favoriten"
             }
         }
         async function insertFavourite(id) {

@@ -6,7 +6,7 @@ window.onload = function() {
     console.log("onLoad Function");
     fetchRecommendedPodcasts();
     const resultsDiv = document.getElementById('podcast-list');
-    resultsDiv.innerHTML = '<p class="loading-message">Loading recommended Podcasts...</p>';
+    resultsDiv.innerHTML = 'Empfohlene Podcast werden geladen...';
     getCategories();
     const searchInput = document.getElementById('search-title');
     if (searchInput) {
