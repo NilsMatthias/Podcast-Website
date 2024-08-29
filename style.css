@@ -17,7 +17,7 @@ main{
     flex: 1;
     border-bottom: 1px solid #797272;
 }
-/*header*/
+
 .header {
     position: fixed;
     top: 0;
@@ -201,7 +201,8 @@ body.drawer-open .drawer {
 .grid {
     display: grid;
    /* grid-template-rows: repeat(auto-fit, minmax(200px, 1fr));
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));*/
+    ;*/
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
     padding: 20px;
     width: 100%;
@@ -211,6 +212,7 @@ body.drawer-open .drawer {
     overflow-y: hidden;
     
 }
+
 
 .grid div {
     /*padding: 0px;*/
@@ -232,7 +234,7 @@ body.drawer-open .drawer {
     cursor: pointer; /* Zeiger-Cursor bei Hover */
     overflow: hidden; /* Verhindert, dass das Bild außerhalb des Containers sichtbar ist */
     display: inline-block;
-
+    
 
 }
 
@@ -246,7 +248,10 @@ body.drawer-open .drawer {
     transform: scale(1.1);
 }
 
-
+.fav-div img {
+    height: 200px; 
+    object-fit: cover; 
+}
 
 
 .favorites-fav  {
@@ -285,8 +290,6 @@ body.drawer-open .drawer {
     max-width: 200px; /* Limits the maximum width of the image */
     height: auto; /* Keeps image proportions */
     
-    
-   
 
 }
 
