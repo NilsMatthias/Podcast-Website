@@ -15,15 +15,16 @@ main{
     width: 100%;
     background-color: white;
     flex: 1;
-
+    border-bottom: 1px solid #797272;
 }
 /*header*/
 .header {
     position: fixed;
     top: 0;
     width: 100%;
-    background-color: white;
-    border-bottom: 1px solid #797272;
+    background-color: rgba(255, 255, 255, 0.8);
+    backdrop-filter: blur(5px);
+    /*border-bottom: 1px solid #797272;*/
     z-index: 1000;
 }
 
@@ -197,6 +198,8 @@ body.drawer-open .drawer {
     grid-auto-flow: column;   /* Elemente in einer Spalte anordnen */
     grid-auto-columns: minmax(200px, 1fr); /* Größe der Grid-Items */
     overflow-x: auto;   
+    overflow-y: hidden;
+    
 }
 
 .grid div {
@@ -205,6 +208,8 @@ body.drawer-open .drawer {
     border-radius: 5px;
     height: 100%;
     /*Üdisplay: flex;*/
+    transition: transform 0.3s ease;
+    
 
 }
 
@@ -213,13 +218,27 @@ body.drawer-open .drawer {
     aspect-ratio: 1 / 1;
     display: block;
     object-fit: cover;
+    transition: transform 0.3s ease; /* Sanfte Übergänge bei Hover */
+    cursor: pointer; /* Zeiger-Cursor bei Hover */
+    overflow: hidden; /* Verhindert, dass das Bild außerhalb des Containers sichtbar ist */
+    display: inline-block;
 
 
 }
 
-.title-fav {
-
+.grid h4 {
+    transition: transform 0.3s ease; /* Sanfter Übergang */
 }
+
+
+.grid div:hover img,
+.grid div:hover h4 {
+    transform: scale(1.1);
+}
+
+
+
+
 .favorites-fav  {
     display: grid;
     grid-template-columns: repeat(4, 1fr);
@@ -371,9 +390,8 @@ body.drawer-open .drawer {
 #categoryContainer {
     padding: 10px;
     gap: 20px;
-    display: flex;
-    flex-wrap: wrap;
    
+    
 }
     
 .category-button {
@@ -385,6 +403,7 @@ body.drawer-open .drawer {
     cursor: pointer; /* Zeiger-Cursor bei Hover */
     transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease; /* Sanfte Übergänge bei Hover */
     margin: 4px;
+    
 }
 
 .category-button:hover {
@@ -399,6 +418,7 @@ body.drawer-open .drawer {
 }
 
 
+
 a:any-link {
     color: black;
     text-decoration: none;
@@ -406,8 +426,9 @@ a:any-link {
 
 
 .footer-rahmen {
-    background-color: hsl(0, 15%, 94%);
+    background-color: white;
     padding: 20px;
+    
 }
 .footer-logo {
     text-align: left;
