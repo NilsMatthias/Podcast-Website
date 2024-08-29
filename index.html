@@ -43,6 +43,9 @@
         </div>
     </header>
     <div class="drawer" id="drawer">
+        <button id="closeButton" class="close-button">
+            <span class="material-icons">close</span>
+        </button>
         <nav class="drawer-nav">
             <ul class="drawer-list">
                 <li><a href="index.html">Home</a></li>
@@ -66,7 +69,7 @@
             <div class="unterüberschrift"> Empfohlene Podcasts</div>
             <div id="podcast-list" class="grid"></div>
             <div class="unterüberschrift"> Die neusten Folgen deiner Favoriten</div>
-            <div id = "fav-div" class="favorites-fav"></div>
+            <div id = "fav-div" class="grid fav-div"></div>
             <div class="unterüberschrift"> Kategorien</div>
             <div class="category-container" id="categoryContainer"></div>
             <div class= "grid" id="categoryResult"></div>
@@ -102,6 +105,10 @@
             if (searchBar.classList.contains('visible')) {
             document.getElementById('search-title').focus();
             }       
+         });
+         
+         document.getElementById('closeButton').addEventListener('click', function() {
+            document.body.classList.remove('drawer-open');
          });
 
          

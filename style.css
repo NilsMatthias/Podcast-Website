@@ -17,7 +17,7 @@ main{
     flex: 1;
     border-bottom: 1px solid #797272;
 }
-/*header*/
+
 .header {
     position: fixed;
     top: 0;
@@ -160,6 +160,16 @@ body.drawer-open .drawer {
     
 
 }
+.close-button {
+    display: block;
+    margin: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    margin-top: -45px;
+    margin-right: -160px;
+}
 .podcast-search button {
     padding: 0 10px;
     font-size: 14px;
@@ -191,7 +201,8 @@ body.drawer-open .drawer {
 .grid {
     display: grid;
    /* grid-template-rows: repeat(auto-fit, minmax(200px, 1fr));
-    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));*/
+    ;*/
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
     gap: 20px;
     padding: 20px;
     width: 100%;
@@ -201,6 +212,7 @@ body.drawer-open .drawer {
     overflow-y: hidden;
     
 }
+
 
 .grid div {
     /*padding: 0px;*/
@@ -222,7 +234,7 @@ body.drawer-open .drawer {
     cursor: pointer; /* Zeiger-Cursor bei Hover */
     overflow: hidden; /* Verhindert, dass das Bild außerhalb des Containers sichtbar ist */
     display: inline-block;
-
+    
 
 }
 
@@ -236,7 +248,10 @@ body.drawer-open .drawer {
     transform: scale(1.1);
 }
 
-
+.fav-div img {
+    height: 200px; 
+    object-fit: cover; 
+}
 
 
 .favorites-fav  {
@@ -275,8 +290,6 @@ body.drawer-open .drawer {
     max-width: 200px; /* Limits the maximum width of the image */
     height: auto; /* Keeps image proportions */
     
-    
-   
 
 }
 
@@ -335,6 +348,27 @@ body.drawer-open .drawer {
     font-size: 2em;
 }
 
+
+#episodes-div button {
+    display: block;
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 10px;
+    border: none;
+    background-color: rgb(226, 222, 222);
+    color: black;
+    font-size: 16px;
+    border-radius: 5px;
+    cursor: pointer;
+    text-align: left;
+    transition: background-color 0.3s;
+}
+
+#episodes-div button:hover {
+    background-color: #474846; /* Hintergrundfarbe beim Hover */
+    color: #FFF; /* Textfarbe beim Hover */
+}
+
 .audio-hidden {
     display: none;
     
@@ -385,7 +419,7 @@ audio {
     line-height: 1.5;
 }
 
-.button-play {
+.button-design {
     font-size: 15px;
     border-radius: 0.5rem;
     border-color: black;
@@ -396,15 +430,7 @@ audio {
 
 
 }
-.button-fav {
-    font-size: 15px;
-    border-radius: 0.5rem;
-    border-color: black;
-    background-color: white;
-    height: 30px;
 
-
-}
 
 
 #categoryContainer {
@@ -521,7 +547,6 @@ a:any-link {
     }
 
     .episode-dashboard {
-        margin-left: 7%;
         margin-top: 3%;
     }
     
