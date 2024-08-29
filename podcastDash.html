@@ -23,8 +23,8 @@
             <nav class="header-nav">
                 <ul class="nav-list">
                     <li><a href="index.html">Home</a></li>
-                    <li><a href="fav.html">Favourites</a></li>
-                    <li><a href="hilfe.html">Help</a></li>
+                    <li><a href="fav.html">Favoriten</a></li>
+                    <li><a href="hilfe.html">Hilfe</a></li>
                 </ul>
             </nav>
             <div class="header-actions">
@@ -44,8 +44,8 @@
         <nav class="drawer-nav">
             <ul class="drawer-list">
                 <li><a href="index.html">Home</a></li>
-                <li><a href="fav.html">Favourites</a></li>
-                <li><a href="hilfe.html">Help</a></li>
+                <li><a href="fav.html">Favoriten</a></li>
+                <li><a href="hilfe.html">Hilfe</a></li>
             </ul>
         </nav>
     </div>
@@ -89,15 +89,16 @@
        
 </div>
 <div id="episodes-div"></div>
-<input id="nextPageBtn" class="button-nextPage" type="button" value="less..." onclick="fetchNewAudio(-1);" /> 
 <br>
-<input id="nextPageBtn" class="button-nextPage" type="button" value="more..." onclick="fetchNewAudio(1);" /> </div>
-  
+<input id="lessBtn" class="button-nextPage" type="button" value="weniger..." onclick="fetchNewAudio(-1);" /> 
+<br>
+<input id="moreBtn" class="button-nextPage" type="button" value="mehr..." onclick="fetchNewAudio(1);" />  
             
         
     </main>
     <script>
         var episodeCount = 20;
+        var URLplaying = null;
         document.getElementById('menuButton').addEventListener('click', function() {
             document.body.classList.toggle('drawer-open');
         });
@@ -199,20 +200,35 @@
             } catch (error) {
             console.error('Error fetching podcasts:', error);
             document.getElementById('podcast-list').innerHTML = '<p>Error fetching podcasts. Please try again later.</p>';
-
+            
 
         }
     }
 
-    async function fetchAudio(id,episodeCount) {
+    async function fetchAudio(id, episodeCount) {
     let url = new URL('https://api.fyyd.de/0.2/podcast/episodes');
     url.searchParams.append('podcast_id', id);
     url.searchParams.append('count', episodeCount);
     console.log('URL:', url.href);
+    
     try {
         const response = await fetch(url);
         const data = await response.json();
+        
         insertEpisodes(data);
+        
+        
+        if (data.data.episodes.length < episodeCount) {
+            document.getElementById('moreBtn').style.display = 'none';
+        } else {
+            document.getElementById('moreBtn').style.display = 'inline'; // "More"-Button anzeigen
+        }
+        if (episodeCount <= 1) {
+            document.getElementById('lessBtn').style.display = 'none';
+        } else {
+            document.getElementById('lessBtn').style.display = 'inline'; // "Less"-Button anzeigen
+        }
+        
     } catch (error) {
         console.error('Error fetching podcasts:', error);
         document.getElementById('episodes-div').innerHTML = '<p>Error fetching podcasts. Please try again later.</p>';
@@ -246,6 +262,8 @@ function insertEpisodes(data) {
         const episodeButton = document.createElement('button');
         episodeButton.textContent = element.title;
         episodeButton.addEventListener('click', function() {
+            URLplaying = element.enclosure;
+            console.log(URLplaying);
             loadEpisode(element.enclosure);
         });
 
@@ -257,8 +275,11 @@ function loadEpisode(episodeUrl) {
     const audioPlayer = document.getElementById('audio-player');
     const audioSource = document.getElementById('audio-source');
     audioSource.src = episodeUrl;
+    
     audioPlayer.load();
-    audioPlayer.play(); // Optional: startet das Abspielen automatisch
+    audioPlayer.play();
+     // Optional: startet das Abspielen automatisch
+    
 }
         function addFavourite() {
         console.log("favourite");
@@ -275,11 +296,44 @@ function loadEpisode(episodeUrl) {
         }
     }
 
-    function playAudio() {
-        console.log("play actual podcast");
-        
+
+    //Speichern des Fortschritts in einer Folge durch Local-Cache
+    document.addEventListener('DOMContentLoaded', function() {
+    const audioPlayer = document.getElementById('audio-player');
+    
+    audioPlayer.addEventListener('timeupdate', function() {
+        if (URLplaying) {
+            const podcastId = getQueryParams().id + '-' + URLplaying;
+            localStorage.setItem(`podcast-${podcastId}-progress`, audioPlayer.currentTime);
+        }
+    });
+
+
+    window.addEventListener('beforeunload', function() {
+        if (URLplaying) {
+            const podcastId = getQueryParams().id + '-' + URLplaying;
+            localStorage.setItem(`podcast-${podcastId}-progress`, audioPlayer.currentTime);
+        }
+    });
+});
+
+//Episode in den Player Laden
+function loadEpisode(episodeUrl) {
+    const audioPlayer = document.getElementById('audio-player');
+    const audioSource = document.getElementById('audio-source');
+    const podcastId = getQueryParams().id + '-' + episodeUrl;
+
+    URLplaying = episodeUrl;
+    audioSource.src = episodeUrl;
+    audioPlayer.load();
+
+    const savedTime = localStorage.getItem(`podcast-${podcastId}-progress`);
+    if (savedTime) {
+        audioPlayer.currentTime = parseFloat(savedTime);
     }
 
+    audioPlayer.play(); 
+}
 
         
     </script>
