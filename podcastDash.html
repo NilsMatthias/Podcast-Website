@@ -266,6 +266,8 @@ function insertEpisodes(data) {
         image.src = "play-button.png";
         image.style = "height: 30px";
         const title = document.createElement("div");
+        const time = document.createElement("div");
+        time.innerHTML = element.duration_string;
         title.innerHTML = element.title;
         if (newest)
         {
@@ -280,6 +282,7 @@ function insertEpisodes(data) {
         });
         divEpisode.appendChild(episodeButton);
         divEpisode.appendChild(title);
+        divEpisode.appendChild(time);
 
         resultsDiv.appendChild(divEpisode);
     });
