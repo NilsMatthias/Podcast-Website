@@ -49,7 +49,7 @@
             </ul>
         </nav>
     </div>
-    <main class ="layout-content">
+    <main class ="layout-content ">
             <div id="podcast-search" class="podcast-search">
                 <!--label for="search-title">Title:</label-->
                 <input type="text" name="Suchtext" id="search-title" class="search-bar" placeholder="Title...">
@@ -77,7 +77,13 @@
         </div>
         <div class="flex2 episode-dashboard">
             <h2>Episodenübersicht</h2>
-            <div id="audio-container">
+                <div id="episodes-div"></div>
+                    <br>
+                    <input id="lessBtn" class="button-nextPage" type="button" value="weniger..." onclick="fetchNewAudio(-1);" /> 
+                    <br>
+                    <input id="moreBtn" class="button-nextPage" type="button" value="mehr..." onclick="fetchNewAudio(1);" />  
+                        
+            <div id="audio-container" class="audio-hidden audio-container">
                 <audio id="audio-player" controls>
                     <source id="audio-source" src="" type="audio/mpeg">
                     Your browser does not support the audio element.
@@ -85,15 +91,8 @@
             </div>
             <!--div id="podcast-summary" class="summary-dash"></div-->
         </div>
-        <div>
+        
        
-</div>
-<div id="episodes-div"></div>
-<br>
-<input id="lessBtn" class="button-nextPage" type="button" value="weniger..." onclick="fetchNewAudio(-1);" /> 
-<br>
-<input id="moreBtn" class="button-nextPage" type="button" value="mehr..." onclick="fetchNewAudio(1);" />  
-            
         
     </main>
     <script>
@@ -336,18 +335,22 @@ function loadEpisode(episodeUrl) {
 function loadEpisode(episodeUrl) {
     const audioPlayer = document.getElementById('audio-player');
     const audioSource = document.getElementById('audio-source');
+    const audioContainer = document.getElementById('audio-container');
+
     const podcastId = getQueryParams().id + '-' + episodeUrl;
 
     URLplaying = episodeUrl;
     audioSource.src = episodeUrl;
+    
     audioPlayer.load();
 
+    
     const savedTime = localStorage.getItem(`podcast-${podcastId}-progress`);
     if (savedTime) {
         audioPlayer.currentTime = parseFloat(savedTime);
     }
-
-    audioPlayer.play(); 
+    audioContainer.classList.remove('audio-hidden');
+    audioPlayer.play();
 }
 
         
