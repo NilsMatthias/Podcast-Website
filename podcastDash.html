@@ -71,17 +71,17 @@
             <div class="title-description podcast-details-right">
                 <h1 id="podcast-title" class="podcast-title-dash"></h1>
                 <p id="podcast-description" class="description-dash"></p>
-                <input id="play-button" class="button-play" type="button" value="play" onclick="playAudio();"/>
-                <input id="clickMe" class="button-fav" type="button" value="add to favorite" onclick="addFavourite();" />
+                <input id="play-button" class="button-play button-design" type="button" value="play" onclick="playAudio();"/>
+                <input id="clickMe" class="button-fav button-design" type="button" value="add to favorite" onclick="addFavourite();" />
             </div>
         </div>
         <div class="flex2 episode-dashboard">
             <h2>Episodenübersicht</h2>
                 <div id="episodes-div"></div>
                     <br>
-                    <input id="lessBtn" class="button-nextPage" type="button" value="weniger..." onclick="fetchNewAudio(-1);" /> 
-                    <br>
-                    <input id="moreBtn" class="button-nextPage" type="button" value="mehr..." onclick="fetchNewAudio(1);" />  
+                    <input id="lessBtn" class="button-nextPage button-design" type="button" value="weniger..." onclick="fetchNewAudio(-1);" /> 
+                    
+                    <input id="moreBtn" class="button-nextPage button-design" type="button" value="mehr..." onclick="fetchNewAudio(1);" />  
                         
             <div id="audio-container" class="audio-hidden audio-container">
                 <audio id="audio-player" controls>
