@@ -306,6 +306,7 @@ body.drawer-open .drawer {
     flex-direction: column;
     align-items: center;
     width: auto;
+    padding-bottom: 60px;
     
 }
 
@@ -334,10 +335,29 @@ body.drawer-open .drawer {
     font-size: 2em;
 }
 
-.audio-player {
+.audio-hidden {
     display: none;
-    margin-top: 20px;
+    
 }
+.audio-container {
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    background-color: #333;
+    padding: 10px;
+    box-sizing: border-box;
+    color: #fff;
+    text-align: center;
+    z-index: 1000px;
+}
+
+audio {
+    width: 100%;
+    outline: none;
+}
+
+
 
 .visible {
     display: block;
