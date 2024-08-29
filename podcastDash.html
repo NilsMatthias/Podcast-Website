@@ -261,19 +261,29 @@ function insertEpisodes(data) {
     data.data.episodes.forEach((element, index) => {
         
         const divEpisode = document.createElement("div");
+        divEpisode.className = "episode-container";
+
         const episodeButton = document.createElement('button');
+        episodeButton.className = "episode-button";
+        
         const image = document.createElement("img");
         image.src = "play-button.png";
         image.style = "height: 30px";
+        image.className = "episode-play-icon";
+
         const title = document.createElement("div");
-        const time = document.createElement("div");
-        time.innerHTML = element.duration_string;
+        title.className = "episode-title";
         title.innerHTML = element.title;
         if (newest)
         {
             title.innerHTML += " - <b>Neuste Folge</b>";
             newest = false;
         }
+
+        const time = document.createElement("div");
+        time.className = "episode-time";
+        time.innerHTML = element.duration_string;
+
         episodeButton.appendChild(image)
         episodeButton.addEventListener('click', function() {
             URLplaying = element.enclosure;
