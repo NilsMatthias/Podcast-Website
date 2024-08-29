@@ -67,21 +67,62 @@ function searchPodcasts() {
     const searchTitle = document.getElementById('search-title').value;
     const resultsDiv = document.getElementById('search');
     resultsDiv.innerHTML = 'Search is running...';
-    fetchPodcasts(searchTitle);
+    fetchPodcasts(searchTitle,0);
 }
 
-async function fetchPodcasts(title) {
+async function fetchPodcasts(title, page) {
     let url = new URL('https://api.fyyd.de/0.2/search/podcast/');
     url.searchParams.append('title', title);
+    url.searchParams.append('page', page);
     console.log('URL:', url.href);
+    
+    const resultsDiv = document.getElementById('search');
+
+    if (page === 0) {
+        resultsDiv.innerHTML = 'Search is running...';
+    }
+
+    // Remove the "more" button if it exists
+    const existingMoreBtn = document.getElementById('more-btn-search');
+    if (existingMoreBtn) {
+        existingMoreBtn.parentNode.removeChild(existingMoreBtn);
+    }
+
+    // Show loading message
+    const loadingMessage = document.createElement('p');
+    loadingMessage.textContent = 'Loading more results...';
+    loadingMessage.setAttribute('id', 'loading-message');
+    resultsDiv.appendChild(loadingMessage);
+
     try {
         const response = await fetch(url);
         const data = await response.json();
-        insertSearchResults(data);
+        insertSearchResults(data, page);
+
+        // Remove the loading message
+        const loadingMessage = document.getElementById('loading-message');
+        if (loadingMessage) {
+            loadingMessage.remove();
+        }
+
+        // Add "more" button if there are more results
+        if (data.data.length > 0) {
+            const moreBtn = document.createElement('input');
+            moreBtn.setAttribute("type", "button");
+            moreBtn.setAttribute("value", "more");
+            moreBtn.setAttribute("id", "more-btn-search"); // ID for the button
+            moreBtn.addEventListener('click', function () {
+                console.log("moreBtn");
+                fetchPodcasts(title, page + 1);
+            });
+            resultsDiv.appendChild(moreBtn); // Add button to container
+        } else {
+            resultsDiv.innerHTML = 'No more results.';
+        }
+
     } catch (error) {
         console.error('Error fetching podcasts:', error);
-        document.getElementById('podcast-list').innerHTML = '<p class="loading-message">Error fetching podcasts. Please try again later.</p>';
-
+        resultsDiv.innerHTML = '<p class="loading-message">Error fetching podcasts. Please try again later.</p>';
     }
 }
 
@@ -97,21 +138,6 @@ async function fetchRecommendedPodcasts() {
     } catch (error) {
         console.error('Error fetching recommended podcasts:', error);
         document.getElementById('podcast-list').innerHTML = '<p class="loading-message">Error fetching recommended podcasts. Please try again later.</p>';
-
-    }
-}
-async function fetchSearchPodcasts() {
-    let url = new URL('https://api.fyyd.de/0.2/podcasts/');
-    url.searchParams.append('page',getRandomInt(1370));
-    url.searchParams.append('count',30);
-    console.log('URL:', url.href);
-    try {
-        const response = await fetch(url);
-        const data = await response.json();
-        insertRecommendedResults(data);
-    } catch (error) {
-        console.error('Error fetching recommended podcasts:', error);
-        document.getElementById('search').innerHTML = '<p class="loading-message">Error fetching recommended podcasts. Please try again later.</p>';
 
     }
 }
@@ -147,13 +173,17 @@ function insertRecommendedResults(data) {
     });
 }
 
-function insertSearchResults(data) {
+function insertSearchResults(data, page) {
     const resultsDiv = document.getElementById('search');
-    resultsDiv.innerHTML = '';
+
+    // Wenn es sich um die erste Seite handelt, leeren Sie das Ergebnisfeld
+    if (page === 0) {
+        resultsDiv.innerHTML = '';
+    }
+
     data.data.forEach(podcast => {
         const podcastDiv = document.createElement('div');
         const titleDiv = document.createElement('h4');
-        const descriptionDiv = document.createElement('p');
         const podcastImage = document.createElement('img');
         const podcastLink = document.createElement('a');
 
@@ -163,12 +193,10 @@ function insertSearchResults(data) {
 
         podcastLink.appendChild(podcastImage);
         podcastLink.appendChild(titleDiv);
-        //podcastLink.appendChild(descriptionDiv);
 
         podcastLink.href = `podcastDash.html?id=${encodeURIComponent(podcast.id)}`;
         podcastLink.target = "_blank";
 
-       
         podcastDiv.appendChild(podcastLink);
 
         resultsDiv.appendChild(podcastDiv);
