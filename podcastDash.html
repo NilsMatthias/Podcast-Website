@@ -89,10 +89,10 @@
        
 </div>
 <div id="episodes-div"></div>
-<input id="nextPageBtn" class="button-nextPage" type="button" value="less..." onclick="fetchNewAudio(-1);" /> 
 <br>
-<input id="nextPageBtn" class="button-nextPage" type="button" value="more..." onclick="fetchNewAudio(1);" /> </div>
-  
+<input id="lessBtn" class="button-nextPage" type="button" value="weniger..." onclick="fetchNewAudio(-1);" /> 
+<br>
+<input id="moreBtn" class="button-nextPage" type="button" value="mehr..." onclick="fetchNewAudio(1);" />  
             
         
     </main>
@@ -205,15 +205,30 @@
         }
     }
 
-    async function fetchAudio(id,episodeCount) {
+    async function fetchAudio(id, episodeCount) {
     let url = new URL('https://api.fyyd.de/0.2/podcast/episodes');
     url.searchParams.append('podcast_id', id);
     url.searchParams.append('count', episodeCount);
     console.log('URL:', url.href);
+    
     try {
         const response = await fetch(url);
         const data = await response.json();
+        
         insertEpisodes(data);
+        
+        
+        if (data.data.episodes.length < episodeCount) {
+            document.getElementById('moreBtn').style.display = 'none';
+        } else {
+            document.getElementById('moreBtn').style.display = 'inline'; // "More"-Button anzeigen
+        }
+        if (episodeCount <= 1) {
+            document.getElementById('lessBtn').style.display = 'none';
+        } else {
+            document.getElementById('lessBtn').style.display = 'inline'; // "Less"-Button anzeigen
+        }
+        
     } catch (error) {
         console.error('Error fetching podcasts:', error);
         document.getElementById('episodes-div').innerHTML = '<p>Error fetching podcasts. Please try again later.</p>';
@@ -250,7 +265,6 @@ function insertEpisodes(data) {
             URLplaying = element.enclosure;
             console.log(URLplaying);
             loadEpisode(element.enclosure);
-            
         });
 
         resultsDiv.appendChild(episodeButton);

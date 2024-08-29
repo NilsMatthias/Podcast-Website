@@ -41,7 +41,7 @@ async function insertFavouriteEpisodes(id){
         const podcastTitle = document.createElement('h4');
         const link = document.createElement("a");
         link.href = `podcastDash.html?id=${encodeURIComponent(id)}`;
-        podcastTitle.innerHTML = data.data.episodes[0].title;
+        podcastTitle.innerHTML = truncateText(data.data.episodes[0].title,10);
         podcastImage.src = data.data.layoutImageURL;
         podcastDiv.appendChild(podcastImage);
         podcastDiv.appendChild(podcastTitle);
@@ -114,8 +114,7 @@ function insertSearchResults(data) {
         const podcastImage = document.createElement('img');
         const podcastLink = document.createElement('a');
 
-        titleDiv.textContent = podcast.title;
-        descriptionDiv.textContent = truncateText(podcast.description, 40);
+        titleDiv.textContent = truncateText(podcast.title,10);
         podcastImage.src = podcast.layoutImageURL;
         podcastImage.className = 'img'; // Added class for image styling
 
@@ -214,7 +213,7 @@ function insertCategorySearchResults(data) {
         const podcastImage = document.createElement('img');
         const podcastLink = document.createElement('a');
 
-        titleDiv.textContent = podcasts.title;
+        titleDiv.textContent = truncateText(podcasts.title,10);
         //descriptionDiv.textContent = truncateText(podcasts.description, 40);
         podcastImage.src = podcasts.layoutImageURL;
         podcastImage.className = 'img'; // Added class for image styling
