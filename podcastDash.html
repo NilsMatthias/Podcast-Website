@@ -256,17 +256,35 @@
 function insertEpisodes(data) {
     const resultsDiv = document.getElementById('episodes-div');
     resultsDiv.innerHTML = '';
+    var newest = true;
 
     data.data.episodes.forEach((element, index) => {
+        
+        const divEpisode = document.createElement("div");
         const episodeButton = document.createElement('button');
-        episodeButton.textContent = element.title;
+        const image = document.createElement("img");
+        image.src = "play-button.png";
+        image.style = "height: 30px";
+        const title = document.createElement("div");
+        const time = document.createElement("div");
+        time.innerHTML = element.duration_string;
+        title.innerHTML = element.title;
+        if (newest)
+        {
+            title.innerHTML += " - <b>Neuste Folge</b>";
+            newest = false;
+        }
+        episodeButton.appendChild(image)
         episodeButton.addEventListener('click', function() {
             URLplaying = element.enclosure;
             console.log(URLplaying);
             loadEpisode(element.enclosure);
         });
+        divEpisode.appendChild(episodeButton);
+        divEpisode.appendChild(title);
+        divEpisode.appendChild(time);
 
-        resultsDiv.appendChild(episodeButton);
+        resultsDiv.appendChild(divEpisode);
     });
 }
 

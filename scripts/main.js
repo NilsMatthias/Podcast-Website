@@ -42,7 +42,7 @@ async function insertFavouriteEpisodes(id){
         const link = document.createElement("a");
         link.href = `podcastDash.html?id=${encodeURIComponent(id)}`;
         link.target = "_blank";
-        podcastTitle.innerHTML = truncateText(data.data.episodes[0].title,10);
+        podcastTitle.innerHTML = data.data.episodes[0].title;
         podcastImage.src = data.data.layoutImageURL;
         podcastDiv.appendChild(podcastImage);
         podcastDiv.appendChild(podcastTitle);
@@ -65,8 +65,8 @@ function cloneImage(event) {
 
 function searchPodcasts() {
     const searchTitle = document.getElementById('search-title').value;
-    const resultsDiv = document.getElementById('podcast-list');
-    resultsDiv.innerHTML = '<p class="loading-message">Search is running...</p>';
+    const resultsDiv = document.getElementById('search');
+    resultsDiv.innerHTML = 'Search is running...';
     fetchPodcasts(searchTitle);
 }
 
@@ -93,19 +93,33 @@ async function fetchRecommendedPodcasts() {
     try {
         const response = await fetch(url);
         const data = await response.json();
-        insertSearchResults(data);
+        insertRecommendedResults(data);
     } catch (error) {
         console.error('Error fetching recommended podcasts:', error);
         document.getElementById('podcast-list').innerHTML = '<p class="loading-message">Error fetching recommended podcasts. Please try again later.</p>';
 
     }
 }
+async function fetchSearchPodcasts() {
+    let url = new URL('https://api.fyyd.de/0.2/podcasts/');
+    url.searchParams.append('page',getRandomInt(1370));
+    url.searchParams.append('count',30);
+    console.log('URL:', url.href);
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        insertRecommendedResults(data);
+    } catch (error) {
+        console.error('Error fetching recommended podcasts:', error);
+        document.getElementById('search').innerHTML = '<p class="loading-message">Error fetching recommended podcasts. Please try again later.</p>';
 
+    }
+}
 function getRandomInt(max){
     return Math.floor(Math.random() * max);
 }
 
-function insertSearchResults(data) {
+function insertRecommendedResults(data) {
     const resultsDiv = document.getElementById('podcast-list');
     resultsDiv.innerHTML = '';
     data.data.forEach(podcast => {
@@ -115,7 +129,7 @@ function insertSearchResults(data) {
         const podcastImage = document.createElement('img');
         const podcastLink = document.createElement('a');
 
-        titleDiv.textContent = truncateText(podcast.title,10);
+        titleDiv.textContent = podcast.title;
         podcastImage.src = podcast.layoutImageURL;
         podcastImage.className = 'img'; // Added class for image styling
 
@@ -133,13 +147,51 @@ function insertSearchResults(data) {
     });
 }
 
-function truncateText(text, wordLimit) {
-    const words = text.split(' ');
-    if (words.length > wordLimit) {
-        return words.slice(0, wordLimit).join(' ') + '...';
-    }
-    return text;
+function insertSearchResults(data) {
+    const resultsDiv = document.getElementById('search');
+    resultsDiv.innerHTML = '';
+    data.data.forEach(podcast => {
+        const podcastDiv = document.createElement('div');
+        const titleDiv = document.createElement('h4');
+        const descriptionDiv = document.createElement('p');
+        const podcastImage = document.createElement('img');
+        const podcastLink = document.createElement('a');
+
+        titleDiv.textContent = podcast.title;
+        podcastImage.src = podcast.layoutImageURL;
+        podcastImage.className = 'img'; // Added class for image styling
+
+        podcastLink.appendChild(podcastImage);
+        podcastLink.appendChild(titleDiv);
+        //podcastLink.appendChild(descriptionDiv);
+
+        podcastLink.href = `podcastDash.html?id=${encodeURIComponent(podcast.id)}`;
+        podcastLink.target = "_blank";
+
+       
+        podcastDiv.appendChild(podcastLink);
+
+        resultsDiv.appendChild(podcastDiv);
+    });
 }
+
+// function truncateText(text, wordLimit) {
+//     // Überprüfen, ob der Text leer oder undefined ist
+//     if (!text || text.trim().length === 0) {
+//         throw new Error("Der Text darf nicht leer sein.");
+//     }
+
+//     // Überprüfen, ob wordLimit nicht angegeben ist oder kein gültiger Wert ist
+//     if (typeof wordLimit !== 'number' || wordLimit <= 0) {
+//         throw new Error("Das Wortlimit muss eine positive Zahl sein.");
+//     }
+
+//     const words = text.split(' ');
+//     if (words.length > wordLimit) {
+//         return words.slice(0, wordLimit).join(' ') + '...';
+//     }
+//     return text;
+// }
 
 function makeid(length) {
     let result = '';
@@ -172,57 +224,99 @@ async function getCategories() {
             catBtn.setAttribute("type", "button");
             catBtn.setAttribute("value", element.name_de);
             catBtn.className = 'category-button';
+            
 
             // Add click event listener with a function reference
             catBtn.addEventListener('click', function() {
-                fetchCategoryPodcasts(element.id,element.name_de);
+                fetchCategoryPodcasts(element.id,element.name_de,0);
             });
 
             catBtndiv.appendChild(catBtn);
+            
         });
         div.appendChild(catBtndiv);
+        
     } catch (error) {
         console.error('Error fetching categories:', error);
         document.getElementById("categoryContainer").innerHTML = '<p>Error fetching podcasts. Please try again later.</p>';
     }
 }
 
-async function fetchCategoryPodcasts(id,name) {
+async function fetchCategoryPodcasts(id, name, page) {
     let url = new URL('https://api.fyyd.de/0.2/category');
-    url.searchParams.append('category_id',id);
+    url.searchParams.append('category_id', id);
+    url.searchParams.append('page', page);
     console.log('URL:', url.href);
+
     const resultsDiv = document.getElementById("categoryResult");
-    resultsDiv.innerHTML = "Inhalte der Kategorie " + name + " werden geladen";
+
+    if (page === 0) {
+        // Nur beim ersten Laden die Nachricht anzeigen und den Inhalt leeren
+        resultsDiv.innerHTML = "Inhalte der Kategorie " + name + " werden geladen";
+    } else {
+        // Entferne den "More"-Button und zeige die Lade-Nachricht an
+        const existingMoreBtn = document.getElementById('more-btn');
+        if (existingMoreBtn) {
+            resultsDiv.removeChild(existingMoreBtn);
+        }
+
+        const loadingMessage = document.createElement('p');
+        loadingMessage.textContent = "Weitere Podcasts werden geladen...";
+        loadingMessage.setAttribute("id", "loading-message");
+        resultsDiv.appendChild(loadingMessage);
+    }
+
     try {
         const response = await fetch(url);
         const data = await response.json();
-        insertCategorySearchResults(data);
-        
+
+        // Füge die neuen Podcasts hinzu
+        insertCategorySearchResults(data, page === 0);
+
+        // Entferne die Lade-Nachricht
+        const loadingMessage = document.getElementById('loading-message');
+        if (loadingMessage) {
+            resultsDiv.removeChild(loadingMessage);
+        }
+
+        // Erstelle oder repositioniere den "More"-Button ans Ende
+        const moreBtn = document.createElement('input');
+        moreBtn.setAttribute("type", "button");
+        moreBtn.setAttribute("value", "more");
+        moreBtn.setAttribute("id", "more-btn");  // Füge eine ID hinzu, um den Button später leicht zu finden
+        moreBtn.addEventListener('click', function () {
+            console.log("moreBtn");
+            fetchCategoryPodcasts(id, name, page + 1);
+        });
+
+        resultsDiv.appendChild(moreBtn);  // Füge den Button ans Ende des Inhalts ein
+
     } catch (error) {
         console.error('Error fetching category podcasts:', error);
         document.getElementById("categoryResult").innerHTML = '<p class="loading-message">Error fetching category podcasts. Please try again later.</p>';
-
     }
 }
 
-function insertCategorySearchResults(data) {
+function insertCategorySearchResults(data, isInitialLoad) {
     const resultsDiv = document.getElementById("categoryResult");
-    resultsDiv.innerHTML = '';
+
+    if (isInitialLoad) {
+        // Nur beim ersten Laden den Inhalt löschen
+        resultsDiv.innerHTML = '';
+    }
+
     data.data.podcasts.forEach(podcasts => {
         const podcastDiv = document.createElement('div');
         const titleDiv = document.createElement('h4');
-        //const descriptionDiv = document.createElement('p');
         const podcastImage = document.createElement('img');
         const podcastLink = document.createElement('a');
 
-        titleDiv.textContent = truncateText(podcasts.title,10);
-        //descriptionDiv.textContent = truncateText(podcasts.description, 40);
+        titleDiv.textContent = podcasts.title;
         podcastImage.src = podcasts.layoutImageURL;
         podcastImage.className = 'img'; // Added class for image styling
 
         podcastLink.appendChild(podcastImage);
         podcastLink.appendChild(titleDiv);
-        //podcastLink.appendChild(descriptionDiv);
 
         podcastLink.href = `podcastDash.html?id=${encodeURIComponent(podcasts.id)}&title=${encodeURIComponent(podcasts.title)}&description=${encodeURIComponent(podcasts.description)}&image=${encodeURIComponent(podcasts.layoutImageURL)}`;
         podcastLink.target = "_blank";
