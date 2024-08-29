@@ -259,6 +259,7 @@ function insertEpisodes(data) {
     resultsDiv.innerHTML = '';
 
     data.data.episodes.forEach((element, index) => {
+        
         const episodeButton = document.createElement('button');
         episodeButton.textContent = element.title;
         episodeButton.addEventListener('click', function() {

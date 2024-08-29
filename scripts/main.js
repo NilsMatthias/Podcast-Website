@@ -65,8 +65,8 @@ function cloneImage(event) {
 
 function searchPodcasts() {
     const searchTitle = document.getElementById('search-title').value;
-    const resultsDiv = document.getElementById('podcast-list');
-    resultsDiv.innerHTML = '<p class="loading-message">Search is running...</p>';
+    const resultsDiv = document.getElementById('search');
+    resultsDiv.innerHTML = 'Search is running...';
     fetchPodcasts(searchTitle);
 }
 
@@ -93,20 +93,62 @@ async function fetchRecommendedPodcasts() {
     try {
         const response = await fetch(url);
         const data = await response.json();
-        insertSearchResults(data);
+        insertRecommendedResults(data);
     } catch (error) {
         console.error('Error fetching recommended podcasts:', error);
         document.getElementById('podcast-list').innerHTML = '<p class="loading-message">Error fetching recommended podcasts. Please try again later.</p>';
 
     }
 }
+async function fetchSearchPodcasts() {
+    let url = new URL('https://api.fyyd.de/0.2/podcasts/');
+    url.searchParams.append('page',getRandomInt(1370));
+    url.searchParams.append('count',30);
+    console.log('URL:', url.href);
+    try {
+        const response = await fetch(url);
+        const data = await response.json();
+        insertRecommendedResults(data);
+    } catch (error) {
+        console.error('Error fetching recommended podcasts:', error);
+        document.getElementById('search').innerHTML = '<p class="loading-message">Error fetching recommended podcasts. Please try again later.</p>';
 
+    }
+}
 function getRandomInt(max){
     return Math.floor(Math.random() * max);
 }
 
-function insertSearchResults(data) {
+function insertRecommendedResults(data) {
     const resultsDiv = document.getElementById('podcast-list');
+    resultsDiv.innerHTML = '';
+    data.data.forEach(podcast => {
+        const podcastDiv = document.createElement('div');
+        const titleDiv = document.createElement('h4');
+        const descriptionDiv = document.createElement('p');
+        const podcastImage = document.createElement('img');
+        const podcastLink = document.createElement('a');
+
+        titleDiv.textContent = truncateText(podcast.title,10);
+        podcastImage.src = podcast.layoutImageURL;
+        podcastImage.className = 'img'; // Added class for image styling
+
+        podcastLink.appendChild(podcastImage);
+        podcastLink.appendChild(titleDiv);
+        //podcastLink.appendChild(descriptionDiv);
+
+        podcastLink.href = `podcastDash.html?id=${encodeURIComponent(podcast.id)}`;
+        podcastLink.target = "_blank";
+
+       
+        podcastDiv.appendChild(podcastLink);
+
+        resultsDiv.appendChild(podcastDiv);
+    });
+}
+
+function insertSearchResults(data) {
+    const resultsDiv = document.getElementById('search');
     resultsDiv.innerHTML = '';
     data.data.forEach(podcast => {
         const podcastDiv = document.createElement('div');
