@@ -41,6 +41,7 @@ async function insertFavouriteEpisodes(id){
         const podcastTitle = document.createElement('h4');
         const link = document.createElement("a");
         link.href = `podcastDash.html?id=${encodeURIComponent(id)}`;
+        link.target = "_blank";
         podcastTitle.innerHTML = truncateText(data.data.episodes[0].title,10);
         podcastImage.src = data.data.layoutImageURL;
         podcastDiv.appendChild(podcastImage);
@@ -123,6 +124,7 @@ function insertSearchResults(data) {
         //podcastLink.appendChild(descriptionDiv);
 
         podcastLink.href = `podcastDash.html?id=${encodeURIComponent(podcast.id)}`;
+        podcastLink.target = "_blank";
 
        
         podcastDiv.appendChild(podcastLink);
@@ -223,7 +225,7 @@ function insertCategorySearchResults(data) {
         //podcastLink.appendChild(descriptionDiv);
 
         podcastLink.href = `podcastDash.html?id=${encodeURIComponent(podcasts.id)}&title=${encodeURIComponent(podcasts.title)}&description=${encodeURIComponent(podcasts.description)}&image=${encodeURIComponent(podcasts.layoutImageURL)}`;
-       
+        podcastLink.target = "_blank";
         podcastDiv.appendChild(podcastLink);
 
         resultsDiv.appendChild(podcastDiv);
