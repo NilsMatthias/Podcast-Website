@@ -17,6 +17,19 @@ main{
     flex: 1;
     border-bottom: 1px solid #797272;
 }
+.help-h1 {
+    align-items: center;
+    justify-content: center;
+}
+.help-content {
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    padding-bottom: 60px;
+    
+}
+
 
 .header {
     position: fixed;
