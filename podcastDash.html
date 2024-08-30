@@ -73,7 +73,7 @@
                 <p id="podcast-description" class="description-dash"></p>
 
                 <button id="clickMe" class="button-fav button-design" onclick="addFavourite();" style="border: none">
-                    <img id="fav-btn-image" src="Stern.png" alt="Favorit"style= "height: 30px">
+                    <img id="fav-btn-image" src="images/Stern.png" alt="Favorit"style= "height: 30px">
                   </button>
                 </div>
         </div>
@@ -171,7 +171,7 @@
             let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
         
             if (favorites.includes(podcastId)) {
-            document.getElementById("fav-btn-image").src="Haken.png";
+            document.getElementById("fav-btn-image").src="images/Haken.png";
             } else {
             }
     
@@ -277,7 +277,7 @@ function insertEpisodes(data) {
         episodeButton.className = "episode-button";
         
         const image = document.createElement("img");
-        image.src = "play-button.png";
+        image.src = "images/play-button.png";
         image.style = "height: 30px";
         image.className = "episode-play-icon";
         const description = document.createElement("div");
@@ -331,7 +331,7 @@ function loadEpisode(episodeUrl) {
         if (!favorites.includes(podcastId)) {
             favorites.push(podcastId);
             localStorage.setItem('favorites', JSON.stringify(favorites));
-            document.getElementById("fav-btn-image").src="Haken.png";
+            document.getElementById("fav-btn-image").src="images/Haken.png";
             alert("Podcast wurde zu den Favoriten hinzugefügt!");
         } else {
             alert("Podcast ist bereits in den Favoriten.");
