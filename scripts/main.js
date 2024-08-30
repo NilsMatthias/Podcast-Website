@@ -185,7 +185,7 @@ function insertRecommendedResults(data) {
         //podcastLink.appendChild(descriptionDiv);
 
         podcastLink.href = `podcastDash.html?id=${encodeURIComponent(podcast.id)}`;
-        podcastLink.target = "_blank";
+        //podcastLink.target = "_blank"; besser fürs Abspielen im Hintergrund aber nervig, da zu viele Tabs
 
        
         podcastDiv.appendChild(podcastLink);
@@ -310,6 +310,7 @@ async function fetchCategoryPodcasts(id, name, page) {
     url.searchParams.append('category_id', id);
     url.searchParams.append('page', page);
     console.log('URL:', url.href);
+    document.getElementById("category-search-monitor").innerHTML = name
 
     const resultsDiv = document.getElementById("categoryResult");
 
@@ -335,8 +336,6 @@ async function fetchCategoryPodcasts(id, name, page) {
 
         // Füge die neuen Podcasts hinzu
         insertCategorySearchResults(data, page === 0);
-        document.getElementById("category-search-monitor").innerHTML = name
-        // Entferne die Lade-Nachricht
         const loadingMessage = document.getElementById('loading-message');
         if (loadingMessage) {
             resultsDiv.removeChild(loadingMessage);
