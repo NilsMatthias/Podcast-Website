@@ -188,14 +188,17 @@ body.drawer-open .drawer {
 }
 
 .loading-message {
-    text-align: center;
     margin-top: 0px;
     width: 100%;
+    align-items: center;
+    justify-content: center;
 }
 
 .unterüberschrift {
     width: 100%;
     padding-left: 20px;
+    padding-bottom: 10px;
+    font-weight: bold;
 }
 
 .grid {
