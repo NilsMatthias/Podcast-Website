@@ -86,7 +86,7 @@
             <div id="audio-container" class="audio-hidden audio-container">
                 <audio id="audio-player" controls>
                     <source id="audio-source" src="" type="audio/mpeg">
-                    Your browser does not support the audio element.
+                    Dein Browser unterstützt das Audio Element nicht.
                 </audio>
             </div>
             <!--div id="podcast-summary" class="summary-dash"></div-->
@@ -151,7 +151,7 @@
             document.getElementById('podcast-image').src = data.data.layoutImageURL;
             } catch (error) {
             console.error('Error fetching podcasts:', error);
-            document.getElementById('podcast-list').innerHTML = '<p>Error fetching podcasts. Please try again later.</p>';
+            document.getElementById('podcast-list').innerHTML = '<p>Fehler beim Laden von Podcasts. Bitte probiere es später nochmal.</p>';
 
             }
         }
@@ -198,7 +198,7 @@
             document.getElementById('audio-player').load();
             } catch (error) {
             console.error('Error fetching podcasts:', error);
-            document.getElementById('podcast-list').innerHTML = '<p>Error fetching podcasts. Please try again later.</p>';
+            document.getElementById('podcast-list').innerHTML = '<p>Fehler beim Laden von Podcasts. Bitte probiere es später nochmal.</p>';
             
 
         }
@@ -230,7 +230,7 @@
         
     } catch (error) {
         console.error('Error fetching podcasts:', error);
-        document.getElementById('episodes-div').innerHTML = '<p>Error fetching podcasts. Please try again later.</p>';
+        document.getElementById('episodes-div').innerHTML = '<p>Fehler beim Laden von Podcasts. Bitte probiere es später nochmal.</p>';
     }
 }
     function fetchNewAudio(change)

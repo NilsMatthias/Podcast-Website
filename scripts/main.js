@@ -6,7 +6,7 @@ window.onload = function() {
     console.log("onLoad Function");
     fetchRecommendedPodcasts();
     const resultsDiv = document.getElementById('podcast-list');
-    resultsDiv.innerHTML = 'Empfohlene Podcast werden geladen...';
+    resultsDiv.innerHTML = '<p class="loading-message">Empfohlene Podcast werden geladen...</p>';
     getCategories();
     const searchInput = document.getElementById('search-title');
     if (searchInput) {
@@ -52,7 +52,7 @@ async function insertFavouriteEpisodes(id){
     }
     catch (error) {
         console.error('Error fetching recommended podcasts:', error);
-        document.getElementById('podcast-list').innerHTML = '<p class="loading-message">Error fetching recommended podcasts. Please try again later.</p>';
+        document.getElementById('podcast-list').innerHTML = '<p class="loading-message">Fehler beim Laden empfohlener Podcasts. Bitte probiere es später nochmal.</p>';
     }
 }
 
@@ -66,7 +66,7 @@ function cloneImage(event) {
 function searchPodcasts() {
     const searchTitle = document.getElementById('search-title').value;
     const resultsDiv = document.getElementById('search');
-    resultsDiv.innerHTML = 'Search is running...';
+    resultsDiv.innerHTML = 'Suche läuft...';
     fetchPodcasts(searchTitle,0);
 }
 
@@ -79,7 +79,7 @@ async function fetchPodcasts(title, page) {
     const resultsDiv = document.getElementById('search');
 
     if (page === 0) {
-        resultsDiv.innerHTML = 'Search is running...';
+        resultsDiv.innerHTML = 'Suche läuft...';
     }
 
     // Remove the "more" button if it exists
@@ -90,7 +90,10 @@ async function fetchPodcasts(title, page) {
 
     // Show loading message
     const loadingMessage = document.createElement('p');
-    loadingMessage.textContent = 'Loading more results...';
+    if(page != 0){
+        loadingMessage.textContent = 'Ergebnisse werden geladen...';
+    }
+    
     loadingMessage.setAttribute('id', 'loading-message');
     resultsDiv.appendChild(loadingMessage);
 
@@ -117,12 +120,12 @@ async function fetchPodcasts(title, page) {
             });
             resultsDiv.appendChild(moreBtn); // Add button to container
         } else {
-            resultsDiv.innerHTML = 'No more results.';
+            resultsDiv.innerHTML = 'Keine weiteren Ergebnisse.';
         }
 
     } catch (error) {
         console.error('Error fetching podcasts:', error);
-        resultsDiv.innerHTML = '<p class="loading-message">Error fetching podcasts. Please try again later.</p>';
+        resultsDiv.innerHTML = '<p class="loading-message">Fehler beim Laden von Podcasts. Bitte probiere es später nochmal.</p>';
     }
 }
 
@@ -137,7 +140,7 @@ async function fetchRecommendedPodcasts() {
         insertRecommendedResults(data);
     } catch (error) {
         console.error('Error fetching recommended podcasts:', error);
-        document.getElementById('podcast-list').innerHTML = '<p class="loading-message">Error fetching recommended podcasts. Please try again later.</p>';
+        document.getElementById('podcast-list').innerHTML = '<p class="loading-message">Fehler beim Laden empfohlener Podcasts. Bitte probiere es später nochmal.</p>';
 
     }
 }
@@ -266,7 +269,7 @@ async function getCategories() {
         
     } catch (error) {
         console.error('Error fetching categories:', error);
-        document.getElementById("categoryContainer").innerHTML = '<p>Error fetching podcasts. Please try again later.</p>';
+        document.getElementById("categoryContainer").innerHTML = '<p>Fehler beim Laden von Kategorien. Bitte probiere es später nochmal.</p>';
     }
 }
 
@@ -321,7 +324,7 @@ async function fetchCategoryPodcasts(id, name, page) {
 
     } catch (error) {
         console.error('Error fetching category podcasts:', error);
-        document.getElementById("categoryResult").innerHTML = '<p class="loading-message">Error fetching category podcasts. Please try again later.</p>';
+        document.getElementById("categoryResult").innerHTML = '<p class="loading-message">Fehler beim Laden von Podcasts. Bitte probiere es später nochmal.</p>';
     }
 }
 
