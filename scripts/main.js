@@ -42,7 +42,7 @@ async function insertFavouriteEpisodes(id){
         const link = document.createElement("a");
         link.href = `podcastDash.html?id=${encodeURIComponent(id)}`;
         link.target = "_blank";
-        podcastTitle.innerHTML = data.data.episodes[0].title;
+        podcastTitle.innerHTML = limitToXWords( data.data.episodes[0].title,6);
         podcastImage.src = data.data.layoutImageURL;
         podcastDiv.appendChild(podcastImage);
         podcastDiv.appendChild(podcastTitle);
@@ -246,7 +246,13 @@ function makeid(length) {
     }
     return result;
 }
-
+function limitToXWords(input,x) {
+    const words = input.split(" "); // Teilt den String in ein Array von Wörtern
+    if (words.length > x) {
+      return words.slice(0, x).join(" "); // Begrenze auf die ersten 10 Wörter
+    }
+    return input; // Gebe den originalen String zurück, wenn es 10 oder weniger Wörter sind
+  }
 
 
 async function getCategories() {
