@@ -266,13 +266,22 @@ async function getCategories() {
         // Clear any existing content in the div
         div.innerHTML = '';
         const catBtndiv = document.createElement('div');
+        const catCount = data.data.length;
+        var forCounter = 0;
+        var randomCat = Math.floor(Math.random()*catCount+1)
+        console.log(randomCat);
         data.data.forEach(element => {
             // Create button for each category
             const catBtn = document.createElement('input');
             catBtn.setAttribute("type", "button");
             catBtn.setAttribute("value", element.name_de);
             catBtn.className = 'category-button';
-            
+            forCounter++;
+            if(forCounter === randomCat)
+                {
+                    console.log("fetching" + element.name_de);
+                    fetchCategoryPodcasts(element.id,element.name_de,0)
+                }
 
             // Add click event listener with a function reference
             catBtn.addEventListener('click', function() {
@@ -283,7 +292,6 @@ async function getCategories() {
             
         });
         div.appendChild(catBtndiv);
-        
     } catch (error) {
         console.error('Error fetching categories:', error);
         document.getElementById("categoryContainer").innerHTML = '<p class="loading-message">Fehler beim Laden von Kategorien. Bitte probiere es später nochmal.</p>';
