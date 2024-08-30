@@ -1,10 +1,5 @@
-
-
-            
-
-
-        var episodeCount = 20;
-        var URLplaying = null;
+    var episodeCount = 20;
+    var URLplaying = null;
         document.getElementById('menuButton').addEventListener('click', function() {
             document.body.classList.toggle('drawer-open');
         });
@@ -27,24 +22,12 @@
         function getQueryParams() {
             const params = new URLSearchParams(window.location.search);
             return {
-                title: params.get('title'),
                 id: params.get('id'),
-                episode: params.get('episode'),
-                date: params.get('date'),
-                description: params.get('description'),
-                image: params.get('image'),
-                audio: params.get('audio'),
-                summary: params.get('summary'),
-                category: params.get('category'),
-                producer: params.get('producer'),
-                podcastName: params.get('podcastName')
-        
-
-
             };
         }
 
-        async function getPodcast(id)
+        //Podcast für das Dash bekommen über id die in URL übergeben wird
+        async function getPodcast()
         {
             let url = new URL('https://api.fyyd.de/0.2/podcast/');
             url.searchParams.append('podcast_id', getQueryParams().id);
@@ -65,14 +48,14 @@
 
     
 
-       
+       //Wenn die Seite aufgerufen wird werden die alle Inhalte geladen inkl. Animation
         document.addEventListener('DOMContentLoaded', function() {
             showLoadingAnimation();
             const params = new URLSearchParams(window.location.search);
             const id = params.get('id');
             getPodcast(id);
             fetchAudio(id,episodeCount);
-            const podcastId = getQueryParams().id; // Beispiel: podcastId aus den Query-Parametern holen
+            const podcastId = getQueryParams().id;
         
             let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
         
@@ -96,7 +79,7 @@
         });
         
 
-        async function fetchPodcast(id,episodeCount) {
+        async function fetchPodcast() {
             let url = new URL('https://api.fyyd.de/0.2/podcast/');
             url.searchParams.append('podcast_id', getQueryParams().id);
             //url.searchParams.append('count', '10');
@@ -113,7 +96,7 @@
 
         }
     }
-
+    //Fetchen der AudioURL mit Erstellen der Divs...
     async function fetchAudio(id, episodeCount) {
         
     let url = new URL('https://api.fyyd.de/0.2/podcast/episodes');
@@ -145,6 +128,7 @@
     }
     hideLoadingAnimation();
 }
+    //Bei mehr Episoden die geladen werden sollen, nutzen wir die Methode um die Inhalte dynamisch nachzuladen
     function fetchNewAudio(change)
     {     
     if (change === 1) {
@@ -164,7 +148,7 @@
 }
     
 
-
+//Erstellen der Buttons und Divs mit einer Schleife
 function insertEpisodes(data) {
     const resultsDiv = document.getElementById('episodes-div');
     resultsDiv.innerHTML = '';
@@ -223,7 +207,7 @@ function insertEpisodes(data) {
         resultsDiv.appendChild(description);
     });
 }
-
+//Episode wird in den Player geladen und abgespielt
 function loadEpisode(episodeUrl) {
     const audioPlayer = document.getElementById('audio-player');
     const audioSource = document.getElementById('audio-source');
@@ -231,12 +215,11 @@ function loadEpisode(episodeUrl) {
     
     audioPlayer.load();
     audioPlayer.play();
-     // Optional: startet das Abspielen automatisch
     
 }
         function addFavourite() {
         console.log("favourite");
-        const podcastId = getQueryParams().id; // Beispiel: podcastId aus den Query-Parametern holen
+        const podcastId = getQueryParams().id;
         
         let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
         
@@ -244,7 +227,7 @@ function loadEpisode(episodeUrl) {
             favorites.push(podcastId);
             localStorage.setItem('favorites', JSON.stringify(favorites));
             document.getElementById("fav-btn-image").src="images/Haken.png";
-            //alert("Podcast wurde zu den Favoriten hinzugefügt!");
+            //alert("Podcast wurde zu den Favoriten hinzugefügt!"); --> wir haben uns dagegen entschieden dieses Feedback zu nutzen, aber wollen es trotzdem stehen lassen
         } else {
             alert("Podcast ist bereits in den Favoriten.");
         }
@@ -254,35 +237,31 @@ function loadEpisode(episodeUrl) {
     //Speichern des Fortschritts in einer Folge durch Local-Cache
     document.addEventListener('DOMContentLoaded', function() {
     const audioPlayer = document.getElementById('audio-player');
-    
-    // Show loading animation when the audio starts playing
-    audioPlayer.addEventListener('play', function() {
-        showLoadingAnimation(); // Show animation when audio starts playing
-    });
-
-    // Hide loading animation when the audio is paused or stopped
-    audioPlayer.addEventListener('pause', function() {
-        hideLoadingAnimation(); // Hide animation when audio is paused
-    });
-
-    // Hide loading animation when the audio ends
-    audioPlayer.addEventListener('ended', function() {
-        hideLoadingAnimation(); // Hide animation when audio ends
-    });
-
     audioPlayer.addEventListener('timeupdate', function() {
         if (URLplaying) {
-            const podcastId = getQueryParams().id + '-' + URLplaying;
+            const podcastId = getQueryParams().id + '-' + URLplaying;//Custom id aus PodcastID und der URL der Episode
             localStorage.setItem(`podcast-${podcastId}-progress`, audioPlayer.currentTime);
         }
     });
-
     window.addEventListener('beforeunload', function() {
         if (URLplaying) {
             const podcastId = getQueryParams().id + '-' + URLplaying;
             localStorage.setItem(`podcast-${podcastId}-progress`, audioPlayer.currentTime);
         }
     });
+    //Animation anzeigen beim Abspielen bzw. Stoppen
+    audioPlayer.addEventListener('play', function() {
+        showLoadingAnimation();
+    });
+    audioPlayer.addEventListener('pause', function() {
+        hideLoadingAnimation();
+    });
+    // Extra Abfrage für das Ende einer Folge
+    audioPlayer.addEventListener('ended', function() {
+        hideLoadingAnimation();
+    });
+
+    
 });
 
 //Episode in den Player Laden
@@ -310,7 +289,9 @@ document.getElementById('closeButton').addEventListener('click', function() {
             document.body.classList.remove('drawer-open');
          });
 
-         function showLoadingAnimation() {
+
+//Funktionen um die Animation zu starten/zu beenden
+function showLoadingAnimation() {
     const loadingAnimation = document.getElementById('loadingAnimation');
     if (loadingAnimation) {
         loadingAnimation.style.animationPlayState = 'running'; // Start the animation
