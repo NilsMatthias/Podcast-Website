@@ -1,26 +1,4 @@
-function addFavourite() {
-    console.log("favourite");
-    const podcastId = getQueryParams().id; // Beispiel: podcastId aus den Query-Parametern holen
-    
-    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    
-    if (!favorites.includes(podcastId)) {
-        favorites.push(podcastId);
-        localStorage.setItem('favorites', JSON.stringify(favorites));
-        alert("Podcast wurde zu den Favoriten hinzugefügt!");
-    } else {
-        removeFavourite(podcastId)
-    }
-}
-
-
-function removeFavourite(podcastId) {
-    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-    favorites = favorites.filter(id => id !== podcastId);
-    localStorage.setItem('favorites', JSON.stringify(favorites));
-
-    alert("Podcast wurde aus den Favoriten entfernt!");
-}
+//Funktionalität der Navigation
 document.getElementById('menuButton').addEventListener('click', function() {
     document.body.classList.toggle('drawer-open');
 });
@@ -40,6 +18,35 @@ document.getElementById('searchButton').addEventListener('click', function() {
     document.getElementById('search-title').focus();
     }       
  });
+
+//Favoriten hinzufügen --> im Local Cache speichern
+function addFavourite() {
+    console.log("favourite");
+    const podcastId = getQueryParams().id; 
+    
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    
+    if (!favorites.includes(podcastId)) {
+        favorites.push(podcastId);
+        localStorage.setItem('favorites', JSON.stringify(favorites));
+        alert("Podcast wurde zu den Favoriten hinzugefügt!");
+    } else {
+        removeFavourite(podcastId)
+    }
+}
+
+//Favorite löschen --> aus dem Local Cache entfernen, dabei wird der Local Cache ohne den jeweiligen Podcast kopiert und dann ersetzt
+function removeFavourite(podcastId) {
+    let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+    favorites = favorites.filter(id => id !== podcastId);
+    localStorage.setItem('favorites', JSON.stringify(favorites));
+
+    alert("Podcast wurde aus den Favoriten entfernt!");
+}
+
+
+
+ // Alle Funktion, die beim Laden der Seite aufgerufen werden, dabei werden die Favoriten aus dem Local Cache geladen und jedes Element einzeln eingefügt
  document.addEventListener('DOMContentLoaded', function() {
     console.log("onLoad Function");
     let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
@@ -54,6 +61,8 @@ document.getElementById('searchButton').addEventListener('click', function() {
         div.innerHTML = "Du hast noch keine Favoriten"
     }
 });
+
+//Das Div der Favoriten mit dem Podcast ausfüllen
 async function insertFavourite(id) {
     showLoadingAnimation();
 var div = document.getElementById("fav-div");
@@ -99,17 +108,18 @@ document.getElementById('podcast-list').innerHTML = '<p class="loading-message">
 }
 }
 
+//entfernen eines Favoriten
 function removeFavourite(podcastId) {
 let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
 console.log(podcastId);
 favorites = favorites.filter(id => id !== podcastId);
 localStorage.setItem('favorites', JSON.stringify(favorites));
-
-//alert("Podcast wurde aus den Favoriten entfernt!");
 }
    document.getElementById('closeButton').addEventListener('click', function() {
     document.body.classList.remove('drawer-open');
  });
+
+ //Funktionen für die Animationen
  function showLoadingAnimation() {
 const loadingAnimation = document.getElementById('loadingAnimation');
 if (loadingAnimation) {
