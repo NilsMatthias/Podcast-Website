@@ -328,7 +328,7 @@ async function fetchCategoryPodcasts(id, name, page) {
 
         // Füge die neuen Podcasts hinzu
         insertCategorySearchResults(data, page === 0);
-
+        document.getElementById("category-search-monitor").innerHTML = name
         // Entferne die Lade-Nachricht
         const loadingMessage = document.getElementById('loading-message');
         if (loadingMessage) {
