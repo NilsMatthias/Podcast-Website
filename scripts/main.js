@@ -283,7 +283,7 @@ async function fetchCategoryPodcasts(id, name, page) {
 
     if (page === 0) {
         // Nur beim ersten Laden die Nachricht anzeigen und den Inhalt leeren
-        resultsDiv.innerHTML = "Inhalte der Kategorie " + name + " werden geladen";
+        resultsDiv.innerHTML = '<p class="loading-message">Inhalte der Kategorie ' + name + ' werden geladen...</p>';
     } else {
         // Entferne den "More"-Button und zeige die Lade-Nachricht an
         const existingMoreBtn = document.getElementById('more-btn');

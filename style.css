@@ -378,9 +378,6 @@ body.drawer-open .drawer {
     transition: background-color 0.3s;
 }
 
-
-
-
 .episode-play-icon {
     margin-right: 20px;
 }
@@ -392,6 +389,8 @@ body.drawer-open .drawer {
     font-size: 14px;
     color: grey;
 }
+
+
 .audio-hidden {
     display: none;
     
