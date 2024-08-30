@@ -287,7 +287,7 @@ body.drawer-open .drawer {
     transition: transform 0.3s ease;
 }
 .fav-div h4 {
-
+    transition: transform 0.3s ease;
 }
 
 .fav-div div:hover img,
@@ -308,10 +308,11 @@ body.drawer-open .drawer {
    
 }
 .favorites-fav div {
-    border: 1px solid #1d1616;
+    border: 1px solid #0b0b0b;
     padding: 10px;
     text-align: center;
     border-radius: 5px;
+    background-color: white;
 
 
     display: flex;
@@ -333,7 +334,15 @@ body.drawer-open .drawer {
     
 
 }
-
+.button-remove {
+     padding: 10px 20px; /* Innenabstand für größere Klickfläche */
+    border: 1px solid rgb(226, 222, 222); /* Blaue Randfarbe */
+    background-color: rgb(226, 222, 222);
+    color: black; /* Textfarbe passend zur Randfarbe */
+    border-radius: 5px; /* Abgerundete Ecken */
+    cursor: pointer; /* Zeiger-Cursor bei Hover */
+    margin: 4px;
+}
 
 .episode-dashboard {
     text-align: left;
