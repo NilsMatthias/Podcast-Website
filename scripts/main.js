@@ -2,7 +2,7 @@
 
 var userLang = navigator.language || navigator.userLanguage;
 
-window.onload = function() {
+document.addEventListener('DOMContentLoaded', function() {
     console.log("onLoad Function");
     fetchRecommendedPodcasts();
     const resultsDiv = document.getElementById('podcast-list');
@@ -29,7 +29,7 @@ window.onload = function() {
     });
 }
 
-};
+});
 
 async function insertFavouriteEpisodes(id){
     var div = document.getElementById("fav-div");

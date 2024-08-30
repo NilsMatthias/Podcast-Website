@@ -40,7 +40,7 @@ document.getElementById('searchButton').addEventListener('click', function() {
     document.getElementById('search-title').focus();
     }       
  });
-window.onload = function() {
+ document.addEventListener('DOMContentLoaded', function() {
     console.log("onLoad Function");
     let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
     console.log(favorites)
@@ -53,7 +53,7 @@ window.onload = function() {
         var div = document.getElementById("fav-div");
         div.innerHTML = "Du hast noch keine Favoriten"
     }
-}
+});
 async function insertFavourite(id) {
     showLoadingAnimation();
 var div = document.getElementById("fav-div");
