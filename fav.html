@@ -15,11 +15,21 @@
 
     <header class="header">
         <div class="header-container">
-            <div class="header-logo">
+            
+            <div class="header-logo" id="headerLogo">
                 <a href="index.html">
-                    <img src="audio-waves.png" alt="Logo">
-                </a>
+                <div id="loadingAnimation" class="boxContainer" style="display: none;">
+                    <div class="box box1"></div>
+                    <div class="box box2"></div>
+                    <div class="box box3"></div>
+                    <div class="box box4"></div>
+                    <div class="box box5"></div>
+                    <div class="box box6"></div>
+                    <div class="box box7"></div>
+                </div></a>
+                
             </div>
+            
             <span class="header-title">Easy Play</span>
 
             <nav class="header-nav">
@@ -105,6 +115,7 @@
             }
         }
         async function insertFavourite(id) {
+            showLoadingAnimation();
     var div = document.getElementById("fav-div");
     let url = new URL('https://api.fyyd.de/0.2/podcast');
     url.searchParams.append("podcast_id", id);
@@ -139,6 +150,7 @@
         podcastDiv.appendChild(removeBtn);
         link.appendChild(podcastDiv)
         div.appendChild(link);
+        hideLoadingAnimation();
         
     }
     catch (error) {
@@ -158,6 +170,24 @@ function removeFavourite(podcastId) {
            document.getElementById('closeButton').addEventListener('click', function() {
             document.body.classList.remove('drawer-open');
          });
+         function showLoadingAnimation() {
+    const loadingAnimation = document.getElementById('loadingAnimation');
+    if (loadingAnimation) {
+        loadingAnimation.style.animationPlayState = 'running'; // Start the animation
+        loadingAnimation.style.display = 'flex'; // Ensure it's visible
+    } else {
+        console.error("Loading animation element not found.");
+    }
+}
+
+function hideLoadingAnimation() {
+    const loadingAnimation = document.getElementById('loadingAnimation');
+    if (loadingAnimation) {
+        loadingAnimation.style.animationPlayState = 'paused'; // Pause the animation
+    } else {
+        console.error("Loading animation element not found.");
+    }
+}
     </script>
 
 </body>

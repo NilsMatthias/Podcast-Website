@@ -13,11 +13,21 @@
 
     <header class="header">
         <div class="header-container">
-            <div class="header-logo">
+            
+            <div class="header-logo" id="headerLogo">
                 <a href="index.html">
-                    <img src="audio-waves.png" alt="Logo">
-                </a>
+                <div id="loadingAnimation" class="boxContainer" style="display: none;">
+                    <div class="box box1"></div>
+                    <div class="box box2"></div>
+                    <div class="box box3"></div>
+                    <div class="box box4"></div>
+                    <div class="box box5"></div>
+                    <div class="box box6"></div>
+                    <div class="box box7"></div>
+                </div></a>
+                
             </div>
+            
             <span class="header-title">Easy Play</span>
 
             <nav class="header-nav">
@@ -166,6 +176,7 @@
 
        
         window.onload = function() {
+            showLoadingAnimation();
             const params = new URLSearchParams(window.location.search);
             const id = params.get('id');
             getPodcast(id);
@@ -219,6 +230,7 @@
     }
 
     async function fetchAudio(id, episodeCount) {
+        
     let url = new URL('https://api.fyyd.de/0.2/podcast/episodes');
     url.searchParams.append('podcast_id', id);
     url.searchParams.append('count', episodeCount);
@@ -246,6 +258,7 @@
         console.error('Error fetching podcasts:', error);
         document.getElementById('episodes-div').innerHTML = '<p class="loading-message">Fehler beim Laden von Podcasts. Bitte probiere es später nochmal.</p>';
     }
+    hideLoadingAnimation();
 }
     function fetchNewAudio(change)
     {     
@@ -357,13 +370,27 @@ function loadEpisode(episodeUrl) {
     document.addEventListener('DOMContentLoaded', function() {
     const audioPlayer = document.getElementById('audio-player');
     
+    // Show loading animation when the audio starts playing
+    audioPlayer.addEventListener('play', function() {
+        showLoadingAnimation(); // Show animation when audio starts playing
+    });
+
+    // Hide loading animation when the audio is paused or stopped
+    audioPlayer.addEventListener('pause', function() {
+        hideLoadingAnimation(); // Hide animation when audio is paused
+    });
+
+    // Hide loading animation when the audio ends
+    audioPlayer.addEventListener('ended', function() {
+        hideLoadingAnimation(); // Hide animation when audio ends
+    });
+
     audioPlayer.addEventListener('timeupdate', function() {
         if (URLplaying) {
             const podcastId = getQueryParams().id + '-' + URLplaying;
             localStorage.setItem(`podcast-${podcastId}-progress`, audioPlayer.currentTime);
         }
     });
-
 
     window.addEventListener('beforeunload', function() {
         if (URLplaying) {
@@ -398,7 +425,24 @@ document.getElementById('closeButton').addEventListener('click', function() {
             document.body.classList.remove('drawer-open');
          });
 
-        
+         function showLoadingAnimation() {
+    const loadingAnimation = document.getElementById('loadingAnimation');
+    if (loadingAnimation) {
+        loadingAnimation.style.animationPlayState = 'running'; // Start the animation
+        loadingAnimation.style.display = 'flex'; // Ensure it's visible
+    } else {
+        console.error("Loading animation element not found.");
+    }
+}
+
+function hideLoadingAnimation() {
+    const loadingAnimation = document.getElementById('loadingAnimation');
+    if (loadingAnimation) {
+        loadingAnimation.style.animationPlayState = 'paused'; // Pause the animation
+    } else {
+        console.error("Loading animation element not found.");
+    }
+}
     </script>
 
 </body>
