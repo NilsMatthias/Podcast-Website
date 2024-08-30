@@ -210,6 +210,8 @@ body.drawer-open .drawer {
     grid-auto-columns: minmax(200px, 1fr); /* Größe der Grid-Items */
     overflow-x: auto;   
     overflow-y: hidden;
+    justify-items: start; /* Elemente im Grid linksbündig ausrichten */
+    grid-auto-flow: column;
     
 }
 
