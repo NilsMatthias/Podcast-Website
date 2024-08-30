@@ -7,27 +7,7 @@ body {
     flex-direction: column;
     min-height: 100vh;
 }
-
-main{
-    margin-top: 90px;
-    display: flex;
-    padding: 20px;
-    width: 100%;
-    background-color: white;
-    flex: 1;
-    border-bottom: 1px solid #797272;
-}
-
-.help-content {
-    margin-top: 60px;
-    display: flex;
-    flex-direction: column;
-    width: auto;
-    padding-bottom: 60px;
-    
-}
-
-
+/*Allgemein*/
 .header {
     position: fixed;
     top: 0;
@@ -47,11 +27,11 @@ main{
     max-width: 1200px;
     margin: 0 auto;
 }
-
+/*Hilfe Seite*/
 .header-help {
     padding: 10px 20px;
 }
-
+/*Allgemein*/
 .header-logo img {
     height: 40px;
 }
@@ -104,7 +84,6 @@ main{
 }
 
 
-
 .drawer {
     display: none;
     flex-direction: column;
@@ -126,12 +105,11 @@ main{
     margin: 0;
 }
 
-
 .drawer .drawer-nav .drawer-list li {
     padding: 15px 20px;
 }
 .drawer .drawer-nav .drawer-list li:hover {
-    background-color: #474846; /* Hintergrundfarbe beim Hover */
+    background-color: #474846; 
 
 }
 .drawer .drawer-nav .drawer-list li:hover a{
@@ -145,15 +123,40 @@ main{
     display: block;
 }
 
-
-
-
-
 body.drawer-open .drawer {
     display: flex;
 }
 
+.close-button {
+    display: block;
+    margin: 10px;
+    background: none;
+    border: none;
+    cursor: pointer;
+    font-size: 24px;
+    margin-top: -45px;
+    margin-right: -160px;
+}
 
+main{
+    margin-top: 90px;
+    display: flex;
+    padding: 20px;
+    width: 100%;
+    background-color: white;
+    flex: 1;
+    border-bottom: 1px solid #797272;
+}
+
+/*Hilfe*/
+.help-content {
+    margin-top: 60px;
+    display: flex;
+    flex-direction: column;
+    width: auto;
+    padding-bottom: 60px;
+    
+}
 
 .podcast-search {
     display: flex;
@@ -185,16 +188,7 @@ body.drawer-open .drawer {
     
 
 }
-.close-button {
-    display: block;
-    margin: 10px;
-    background: none;
-    border: none;
-    cursor: pointer;
-    font-size: 24px;
-    margin-top: -45px;
-    margin-right: -160px;
-}
+
 .podcast-search button {
     padding: 0 10px;
     font-size: 14px;
@@ -211,7 +205,7 @@ body.drawer-open .drawer {
     border: 2px solid black;
     
 }
-
+/*Generelle Nachricht zum Laden von Podcasts (Einheitlich)*/
 .loading-message {
     margin-top: 0px;
     width: 100%;
@@ -231,6 +225,7 @@ body.drawer-open .drawer {
     font-size: 18px;
 }
 
+/*Aufteilung der Podcasts*/
 .grid {
     display: grid;
    /* grid-template-rows: repeat(auto-fit, minmax(200px, 1fr));
@@ -239,8 +234,8 @@ body.drawer-open .drawer {
     gap: 20px;
     padding: 20px;
     width: 100%;
-    grid-auto-flow: column;   /* Elemente in einer Spalte anordnen */
-    grid-auto-columns: minmax(200px, 1fr); /* Größe der Grid-Items */
+    grid-auto-flow: column;   
+    grid-auto-columns: minmax(200px, 1fr); 
     overflow-x: auto;   
     overflow-y: hidden;
     justify-items: start; /* Elemente im Grid linksbündig ausrichten */
@@ -256,7 +251,7 @@ body.drawer-open .drawer {
     text-align: center;
     border-radius: 5px;
     height: 100%;
-    /*Üdisplay: flex;*/
+    /*display: flex;*/
     transition: transform 0.3s ease;
 
 }
@@ -267,7 +262,7 @@ body.drawer-open .drawer {
     display: block;
     object-fit: cover;
     transition: transform 0.3s ease; /* Sanfte Übergänge bei Hover */
-    cursor: pointer; /* Zeiger-Cursor bei Hover */
+    cursor: pointer; 
     overflow: hidden; /* Verhindert, dass das Bild außerhalb des Containers sichtbar ist */
     display: inline-block;
     
@@ -275,7 +270,7 @@ body.drawer-open .drawer {
 }
 
 .grid h4 {
-    transition: transform 0.3s ease; /* Sanfter Übergang */
+    transition: transform 0.3s ease; 
 }
 
 
@@ -300,11 +295,11 @@ body.drawer-open .drawer {
     gap: 20px;
     padding: 20px;
     width: 100%;
-    grid-auto-flow: column;   /* Elemente in einer Spalte anordnen */
-    grid-auto-columns: minmax(200px,200px); /* Größe der Grid-Items */
+    grid-auto-flow: column;   
+    grid-auto-columns: minmax(200px,200px); 
     overflow-x: auto;   
     overflow-y: hidden;
-    justify-items: start; /* Elemente im Grid linksbündig ausrichten */
+    justify-items: start; 
     grid-auto-flow: column;
     max-width: fit-content;
     transition: transform 0.3s ease;
@@ -355,21 +350,13 @@ body.drawer-open .drawer {
     object-fit: cover;
 
 
-    width: 100%; /* Image takes full width of its container */
-    max-width: 200px; /* Limits the maximum width of the image */
-    height: auto; /* Keeps image proportions */
+    width: 100%; 
+    max-width: 200px; 
+    height: auto; 
     
 
 }
-.button-remove {
-     padding: 10px 20px; /* Innenabstand für größere Klickfläche */
-    border: 1px solid rgb(226, 222, 222); /* Blaue Randfarbe */
-    background-color: rgb(226, 222, 222);
-    color: black; /* Textfarbe passend zur Randfarbe */
-    border-radius: 5px; /* Abgerundete Ecken */
-    cursor: pointer; /* Zeiger-Cursor bei Hover */
-    margin: 4px;
-}
+
 
 .episode-dashboard {
     text-align: left;
@@ -421,7 +408,15 @@ body.drawer-open .drawer {
     padding-left: 30px;
 }
 
-
+.button-remove {
+    padding: 10px 20px; /* Innenabstand für größere Klickfläche */
+    border: 1px solid rgb(226, 222, 222); 
+    background-color: rgb(226, 222, 222);
+    color: black; 
+    border-radius: 5px; 
+    cursor: pointer; 
+    margin: 4px;
+}
 .play-button {
     cursor: pointer;
     display: flex;
@@ -431,7 +426,7 @@ body.drawer-open .drawer {
     font-size: 2em;
 }
 .episode-container {
-    margin-bottom: 10px; /* Abstand zwischen den Episoden */
+    margin-bottom: 10px; 
     display: flex;
     align-items: center;
     padding: 10px;
@@ -554,25 +549,25 @@ audio {
 }
     
 .category-button {
-    padding: 10px 20px; /* Innenabstand für größere Klickfläche */
-    border: 1px solid black; /* Blaue Randfarbe */
-    background-color: #FFF; /* Weiße Hintergrundfarbe */
-    color: black; /* Textfarbe passend zur Randfarbe */
-    border-radius: 5px; /* Abgerundete Ecken */
-    cursor: pointer; /* Zeiger-Cursor bei Hover */
+    padding: 10px 20px; 
+    border: 1px solid black; 
+    background-color: #FFF; 
+    color: black; 
+    border-radius: 5px; 
+    cursor: pointer; 
     transition: background-color 0.3s ease, border-color 0.3s ease, color 0.3s ease; /* Sanfte Übergänge bei Hover */
     margin: 4px;
     
 }
 
 .category-button:hover {
-    background-color: #474846; /* Hintergrundfarbe beim Hover */
-    color: #FFF; /* Textfarbe beim Hover */
+    background-color: #474846; 
+    color: #FFF; 
     
 }
 
 .category-button:active {
-    background-color: black; /* Noch dunklere Farbe beim Klicken */
+    background-color: black; 
     
 }
 
@@ -585,37 +580,38 @@ a:any-link {
 
 
 .footer {
-    display: flex;                 /* Flexbox-Layout aktivieren */
-    justify-content: space-between; /* Elemente gleichmäßig verteilen */
-    align-items: center;           /* Elemente vertikal zentrieren */
-    padding: 20px;                 /* Innenabstand für den Footer */
-    background-color: white;        /* Hintergrundfarbe des Footers */
-    color: black;                  /* Textfarbe im Footer */
+    display: flex;                 
+    justify-content: space-between; 
+    align-items: center;           
+    padding: 20px;                 
+    background-color: white;        
+    color: black;                  
 }
 
 .footer-section {
-    flex: 1;                       /* Alle Abschnitte gleichmäßig verteilen */
-    text-align: center;            /* Zentriere Text */
+    flex: 1;                       
+    text-align: center;            
 }
 
 .footer-left {
-    text-align: left;              /* Text linksbündig ausrichten */
+    text-align: left;              
 }
 
 .footer-right {
-    text-align: right;             /* Text rechtsbündig ausrichten */
+    text-align: right;             
 }
 
 .footer a {
-    color: black;                  /* Linkfarbe */
-    text-decoration: none;         /* Keine Unterstreichung für Links */
-    margin: 0 10px;                /* Horizontaler Abstand zwischen Links */
+    color: black;                  
+    text-decoration: none;         
+    margin: 0 10px;               
 }
 
 .footer a:hover {
-    text-decoration: underline;    /* Unterstreichung beim Hover */
+    text-decoration: underline;    
 }
 
+/*Bildschirmanpassung*/
 @media (min-width: 990px) {
     .header-nav {
         display: block;
