@@ -72,8 +72,10 @@
                 <h1 id="podcast-title" class="podcast-title-dash"></h1>
                 <p id="podcast-description" class="description-dash"></p>
 
-                <input id="clickMe" class="button-fav button-design" type="button" value="add to favorite" onclick="addFavourite();" />
-            </div>
+                <button id="clickMe" class="button-fav button-design" onclick="addFavourite();" style="border: none">
+                    <img id="fav-btn-image" src="Stern.png" alt="Favorit"style= "height: 30px">
+                  </button>
+                </div>
         </div>
         <div class="flex2 episode-dashboard">
             <h2>Episodenübersicht</h2>
@@ -164,6 +166,14 @@
             const id = params.get('id');
             getPodcast(id);
             fetchAudio(id,episodeCount);
+            const podcastId = getQueryParams().id; // Beispiel: podcastId aus den Query-Parametern holen
+        
+            let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
+        
+            if (favorites.includes(podcastId)) {
+            document.getElementById("fav-btn-image").src="Haken.png";
+            } else {
+            }
     
     
             const searchInput = document.getElementById('search-title');
@@ -321,6 +331,7 @@ function loadEpisode(episodeUrl) {
         if (!favorites.includes(podcastId)) {
             favorites.push(podcastId);
             localStorage.setItem('favorites', JSON.stringify(favorites));
+            document.getElementById("fav-btn-image").src="Haken.png";
             alert("Podcast wurde zu den Favoriten hinzugefügt!");
         } else {
             alert("Podcast ist bereits in den Favoriten.");
