@@ -66,7 +66,7 @@ function cloneImage(event) {
 function searchPodcasts() {
     const searchTitle = document.getElementById('search-title').value;
     const resultsDiv = document.getElementById('search');
-    resultsDiv.innerHTML = 'Suche läuft...';
+    resultsDiv.innerHTML = '<p class="loading-message">Suche läuft...';
     fetchPodcasts(searchTitle,0);
 }
 

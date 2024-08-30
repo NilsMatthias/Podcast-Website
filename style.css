@@ -188,14 +188,21 @@ body.drawer-open .drawer {
 }
 
 .loading-message {
-    text-align: center;
     margin-top: 0px;
     width: 100%;
+    align-items: center;
+    justify-content: center;
+}
+
+.suche {
+    padding-left:100px;
 }
 
 .unterüberschrift {
     width: 100%;
     padding-left: 20px;
+    padding-bottom: 10px;
+    font-weight: bold;
 }
 
 .grid {
@@ -273,8 +280,20 @@ body.drawer-open .drawer {
     justify-items: start; /* Elemente im Grid linksbündig ausrichten */
     grid-auto-flow: column;
     max-width: fit-content;
+    transition: transform 0.3s ease;
 }
 
+.fav-div img{
+    transition: transform 0.3s ease;
+}
+.fav-div h4 {
+
+}
+
+.fav-div div:hover img,
+.fav-div div:hover h4 {
+    transform: scale(1.1);
+}
 
 .favorites-fav  {
     display: grid;
