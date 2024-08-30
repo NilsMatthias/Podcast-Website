@@ -7,28 +7,37 @@
     <title>Easy Play</title>
     <link rel="stylesheet" type="text/css" href="style.css">
     <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
-    <script src="scripts/main.js"> </script>
-    <script src="scripts/favourites.js"> </script>
+
 
 </head>
 <body>
 
     <header class="header">
+
         <div class="header-container header-help">
             <div class="header-logo">
                 <a href="index.html">
                     <img src="audio-waves.png" alt="Logo">
                 </a>
             </div>
+                
+       
+            
             <span class="header-title">Easy Play</span>
 
             <nav class="header-nav">
                 <ul class="nav-list">
                     <li><a href="index.html">Home</a></li>
                     <li><a href="fav.html">Favoriten</a></li>
+                    <li><a href="hilfe.html">Hilfe</a></li>
                 </ul>
             </nav>
             <div class="header-actions">
+                <div class="search-hide">
+                    <button id="searchButton" class="search-button">
+                        <span class="material-icons">search</span>
+                    </button>
+                </div>
         
                 <button id="menuButton" class="menu-button">
                     <span class="material-icons">menu</span>
@@ -133,31 +142,7 @@
     </footer>
 
 
-    <script>
-        document.getElementById('menuButton').addEventListener('click', function() {
-            document.body.classList.toggle('drawer-open');
-        });
-          document.addEventListener('click', function(event) {
-            var drawer = document.getElementById('drawer');
-            var menuButton = document.getElementById('menuButton');
-
-            if(!drawer.contains(event.target) && !menuButton.contains(event.target)) {
-                document.body.classList.remove('drawer-open');
-            }
-        });
-
-        document.getElementById('searchButton').addEventListener('click', function() {
-            var searchBar = document.getElementById('podcast-search');
-            searchBar.classList.toggle('visible');
-            if (searchBar.classList.contains('visible')) {
-            document.getElementById('search-title').focus();
-            }       
-         });
-
-         document.getElementById('closeButton').addEventListener('click', function() {
-            document.body.classList.remove('drawer-open');
-         });
-    </script>
+    <script src="scripts/ui-interactions.js"></script>
 
 </body>
 </html>
