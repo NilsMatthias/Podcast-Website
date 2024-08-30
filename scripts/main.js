@@ -333,7 +333,7 @@ moreBtn.addEventListener('click', function () {
 const icon = document.createElement('img');
 icon.src = "images/arrow_right.png";
 icon.style.height = "90px";
-icon.style.marginBottom = "125px";
+icon.style.marginBottom = "140px";
 icon.style.paddingLeft = "40px";
 moreBtn.appendChild(icon); // Füge das Bild dem Button hinzu
 resultsDiv.appendChild(moreBtn); // Füge den Button dem Container hinzu  // Füge den Button ans Ende des Inhalts ein
