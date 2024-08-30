@@ -2,6 +2,7 @@
 
 var userLang = navigator.language || navigator.userLanguage;
 
+//Funktionen beim Aufruf der Seite um die Inhalte zu laden
 document.addEventListener('DOMContentLoaded', function() {
     console.log("onLoad Function");
     fetchRecommendedPodcasts();
@@ -19,6 +20,7 @@ document.addEventListener('DOMContentLoaded', function() {
     } else {
         console.error("Search input field not found");
     }
+    //Wenn man keine Favoriten hat, wird das Panel nicht angezeigt --> wirkt cleaner
     let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
     console.log(favorites);
     if (favorites.length === 0) {
@@ -31,6 +33,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 });
 
+//Einfügen der neusten Episoden der Lieblingspodcasts
 async function insertFavouriteEpisodes(id){
     var div = document.getElementById("fav-div");
     let url = new URL('https://api.fyyd.de/0.2/podcast/episodes');
@@ -63,13 +66,7 @@ async function insertFavouriteEpisodes(id){
     }
 }
 
-
-function cloneImage(event) {
-    const clickedImage = event.target;
-    const clonedImage = clickedImage.cloneNode(true);
-    clickedImage.parentNode.appendChild(clonedImage);
-}
-
+//Suchfunktion die nach dem eingegebenen Titel sucht
 function searchPodcasts() {
     const searchTitle = document.getElementById('search-title').value;
     const resultsDiv = document.getElementById('search');
@@ -77,6 +74,7 @@ function searchPodcasts() {
     fetchPodcasts(searchTitle,0);
 }
 
+//Holt die benötigte Anfrage von der API und nutzt das Page system um dynamisch nachzuladen
 async function fetchPodcasts(title, page) {
     showLoadingAnimation();
     let url = new URL('https://api.fyyd.de/0.2/search/podcast/');
@@ -89,14 +87,10 @@ async function fetchPodcasts(title, page) {
     if (page === 0) {
         resultsDiv.innerHTML = '<p class="loading-message suche">Suche läuft...</p>';
     }
-
-    // Remove the "more" button if it exists
     const existingMoreBtn = document.getElementById('more-btn-search');
     if (existingMoreBtn) {
         existingMoreBtn.parentNode.removeChild(existingMoreBtn);
     }
-
-    // Show loading message
     const loadingMessage = document.createElement('p');
     if(page != 0){
         loadingMessage.textContent = 'Ergebnisse werden geladen...';
@@ -149,6 +143,7 @@ async function fetchPodcasts(title, page) {
 
 }
 
+//Holt aus allen Podcast eine zufällige Seite
 async function fetchRecommendedPodcasts() {
     showLoadingAnimation();
     let url = new URL('https://api.fyyd.de/0.2/podcasts/');
@@ -166,10 +161,12 @@ async function fetchRecommendedPodcasts() {
     }
     hideLoadingAnimation();
 }
+//Zufallsfunktion für Recommended gibt eine Zufallszahl von 0 bis max zurück
 function getRandomInt(max){
     return Math.floor(Math.random() * max);
 }
 
+//Einfügen der Zufälligen Podcast (Empfohlen sind hier einfach zufällige Podcast, sodass jeder Podcast die Chance hat gesehen zu werden)
 function insertRecommendedResults(data) {
     const resultsDiv = document.getElementById('podcast-list');
     resultsDiv.innerHTML = '';
@@ -179,29 +176,22 @@ function insertRecommendedResults(data) {
         const descriptionDiv = document.createElement('p');
         const podcastImage = document.createElement('img');
         const podcastLink = document.createElement('a');
-
         titleDiv.textContent = podcast.title;
         podcastImage.src = podcast.layoutImageURL;
-        podcastImage.className = 'img'; // Added class for image styling
-
+        podcastImage.className = 'img';
         podcastLink.appendChild(podcastImage);
         podcastLink.appendChild(titleDiv);
-        //podcastLink.appendChild(descriptionDiv);
-
         podcastLink.href = `podcastDash.html?id=${encodeURIComponent(podcast.id)}`;
         //podcastLink.target = "_blank"; besser fürs Abspielen im Hintergrund aber nervig, da zu viele Tabs
-
-       
         podcastDiv.appendChild(podcastLink);
-
         resultsDiv.appendChild(podcastDiv);
     });
 }
 
+//Einfügen der suche
 function insertSearchResults(data, page) {
     const resultsDiv = document.getElementById('search');
-
-    // Wenn es sich um die erste Seite handelt, leeren Sie das Ergebnisfeld
+    // Wenn es sich um die erste Seite handelt, wird das div geleert
     if (page === 0) {
         resultsDiv.innerHTML = '';
     }
@@ -228,44 +218,16 @@ function insertSearchResults(data, page) {
     });
 }
 
-// function truncateText(text, wordLimit) {
-//     // Überprüfen, ob der Text leer oder undefined ist
-//     if (!text || text.trim().length === 0) {
-//         throw new Error("Der Text darf nicht leer sein.");
-//     }
-
-//     // Überprüfen, ob wordLimit nicht angegeben ist oder kein gültiger Wert ist
-//     if (typeof wordLimit !== 'number' || wordLimit <= 0) {
-//         throw new Error("Das Wortlimit muss eine positive Zahl sein.");
-//     }
-
-//     const words = text.split(' ');
-//     if (words.length > wordLimit) {
-//         return words.slice(0, wordLimit).join(' ') + '...';
-//     }
-//     return text;
-// }
-
-function makeid(length) {
-    let result = '';
-    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
-    const charactersLength = characters.length;
-    let counter = 0;
-    while (counter < length) {
-      result += characters.charAt(Math.floor(Math.random() * charactersLength));
-      counter += 1;
-    }
-    return result;
-}
+//Limitiert die Wörter für die Podcastfolgen, da diese zu lang für das Grid war, es werden nicht mehr als x Wörter zurückgegeben
 function limitToXWords(input,x) {
-    const words = input.split(" "); // Teilt den String in ein Array von Wörtern
+    const words = input.split(" ");
     if (words.length > x) {
-      return words.slice(0, x).join(" "); // Begrenze auf die ersten 10 Wörter
+      return words.slice(0, x).join(" ");
     }
-    return input; // Gebe den originalen String zurück, wenn es 10 oder weniger Wörter sind
+    return input;
   }
 
-
+//laden der Kategorien von der API
 async function getCategories() {
     let url = new URL('https://api.fyyd.de/0.2/categories');
     console.log('URL:', url.href);
@@ -273,8 +235,6 @@ async function getCategories() {
         const response = await fetch(url);
         const data = await response.json();
         const div = document.getElementById("categoryContainer");
-
-        // Clear any existing content in the div
         div.innerHTML = '';
         const catBtndiv = document.createElement('div');
         const catCount = data.data.length;
@@ -282,7 +242,6 @@ async function getCategories() {
         var randomCat = Math.floor(Math.random()*catCount+1)
         console.log(randomCat);
         data.data.forEach(element => {
-            // Create button for each category
             const catBtn = document.createElement('input');
             catBtn.setAttribute("type", "button");
             catBtn.setAttribute("value", element.name_de);
@@ -293,8 +252,6 @@ async function getCategories() {
                     console.log("fetching" + element.name_de);
                     fetchCategoryPodcasts(element.id,element.name_de,0)
                 }
-
-            // Add click event listener with a function reference
             catBtn.addEventListener('click', function() {
                 fetchCategoryPodcasts(element.id,element.name_de,0);
             });
@@ -308,7 +265,7 @@ async function getCategories() {
         document.getElementById("categoryContainer").innerHTML = '<p class="loading-message">Fehler beim Laden von Kategorien. Bitte probiere es später nochmal.</p>';
     }
 }
-
+//Fetchen der jeweiligen Kategorie, dabei nutzen wir auch hier das Page System zum nachladen um mehr Podcasts anzuzeigen
 async function fetchCategoryPodcasts(id, name, page) {
     showLoadingAnimation();
     let url = new URL('https://api.fyyd.de/0.2/category');
@@ -320,15 +277,12 @@ async function fetchCategoryPodcasts(id, name, page) {
     const resultsDiv = document.getElementById("categoryResult");
 
     if (page === 0) {
-        // Nur beim ersten Laden die Nachricht anzeigen und den Inhalt leeren
         resultsDiv.innerHTML = '<p class="loading-message">Inhalte der Kategorie ' + name + ' werden geladen...</p>';
     } else {
-        // Entferne den "More"-Button und zeige die Lade-Nachricht an
         const existingMoreBtn = document.getElementById('more-btn');
         if (existingMoreBtn) {
             resultsDiv.removeChild(existingMoreBtn);
         }
-
         const loadingMessage = document.createElement('p');
         loadingMessage.textContent = "Weitere Podcasts werden geladen...";
         loadingMessage.setAttribute("id", "loading-message");
@@ -338,17 +292,15 @@ async function fetchCategoryPodcasts(id, name, page) {
     try {
         const response = await fetch(url);
         const data = await response.json();
-
-        // Füge die neuen Podcasts hinzu
         insertCategorySearchResults(data, page === 0);
         const loadingMessage = document.getElementById('loading-message');
         if (loadingMessage) {
             resultsDiv.removeChild(loadingMessage);
         }
-// Erstelle oder repositioniere den "More"-Button ans Ende
-const moreBtn = document.createElement('button'); // Ändere 'input' zu 'button'
-moreBtn.setAttribute("type", "button");  // Setze den Typ für den Button
-moreBtn.setAttribute("id", "more-btn"); // Füge eine ID hinzu, um den Button später leicht zu finden
+//Erstellen des More-Buttons am Ende des Grids um mehr anzuzeigen
+const moreBtn = document.createElement('button'); 
+moreBtn.setAttribute("type", "button");
+moreBtn.setAttribute("id", "more-btn");
 moreBtn.style = "border: none; background: white;"
 moreBtn.addEventListener('click', function () {
     console.log("moreBtn");
@@ -360,9 +312,8 @@ icon.src = "images/arrow_right.png";
 icon.style.height = "90px";
 icon.style.marginBottom = "140px";
 icon.style.paddingLeft = "40px";
-moreBtn.appendChild(icon); // Füge das Bild dem Button hinzu
-resultsDiv.appendChild(moreBtn); // Füge den Button dem Container hinzu  // Füge den Button ans Ende des Inhalts ein
-
+moreBtn.appendChild(icon);
+resultsDiv.appendChild(moreBtn);
     } catch (error) {
         console.error('Error fetching category podcasts:', error);
         document.getElementById("categoryResult").innerHTML = '<p class="loading-message">Fehler beim Laden von Podcasts. Bitte probiere es später nochmal.</p>';
@@ -370,11 +321,11 @@ resultsDiv.appendChild(moreBtn); // Füge den Button dem Container hinzu  // Fü
     hideLoadingAnimation();
 }
 
+//Einfügen der Ergebnis bei der Kategorie-Suche, isInitialLoad ist hier, dass der Inhalt bereits geladen wurde, dann würde das Div geleert werden
 function insertCategorySearchResults(data, isInitialLoad) {
     const resultsDiv = document.getElementById("categoryResult");
 
     if (isInitialLoad) {
-        // Nur beim ersten Laden den Inhalt löschen
         resultsDiv.innerHTML = '';
     }
 
@@ -386,7 +337,7 @@ function insertCategorySearchResults(data, isInitialLoad) {
 
         titleDiv.textContent = podcasts.title;
         podcastImage.src = podcasts.layoutImageURL;
-        podcastImage.className = 'img'; // Added class for image styling
+        podcastImage.className = 'img';
 
         podcastLink.appendChild(podcastImage);
         podcastLink.appendChild(titleDiv);
@@ -399,6 +350,7 @@ function insertCategorySearchResults(data, isInitialLoad) {
     });
 }
 
+//Funktionen für die Animation
 function showLoadingAnimation() {
     const loadingAnimation = document.getElementById('loadingAnimation');
     if (loadingAnimation) {
