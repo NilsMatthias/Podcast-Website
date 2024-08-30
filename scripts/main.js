@@ -8,6 +8,7 @@ window.onload = function() {
     const resultsDiv = document.getElementById('podcast-list');
     resultsDiv.innerHTML = '<p class="loading-message">Empfohlene Podcast werden geladen...</p>';
     getCategories();
+    
     const searchInput = document.getElementById('search-title');
     if (searchInput) {
         searchInput.addEventListener('keydown', function(event) {
@@ -19,12 +20,17 @@ window.onload = function() {
         console.error("Search input field not found");
     }
     let favorites = JSON.parse(localStorage.getItem('favorites')) || [];
-            console.log(favorites)
-            favorites.forEach(element => {
-                insertFavouriteEpisodes(element);
-            });
+    console.log(favorites);
+    if (favorites.length === 0) {
+    document.getElementById("newestEpisodes").innerHTML = '';
+    } else {
+    favorites.forEach(element => {
+        insertFavouriteEpisodes(element);
+    });
+}
 
 };
+
 async function insertFavouriteEpisodes(id){
     var div = document.getElementById("fav-div");
     let url = new URL('https://api.fyyd.de/0.2/podcast/episodes');
@@ -34,7 +40,8 @@ async function insertFavouriteEpisodes(id){
     try {
         const response = await fetch(url);
         const data = await response.json();
-        console.log(data.data.episodes);
+        console.log(data.data.episodes.length);
+
 
         const podcastDiv = document.createElement('div');
         const podcastImage = document.createElement('img');
