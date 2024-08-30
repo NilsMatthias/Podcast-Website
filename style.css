@@ -188,7 +188,7 @@ body.drawer-open .drawer {
 }
 
 .loading-message {
-    text-align: center;
+    padding-left: 10px;
     margin-top: 0px;
     width: 100%;
 }
@@ -196,6 +196,9 @@ body.drawer-open .drawer {
 .unterüberschrift {
     width: 100%;
     padding-left: 20px;
+    padding-bottom: 10px;
+    font-weight: bold;
+    
 }
 
 .grid {

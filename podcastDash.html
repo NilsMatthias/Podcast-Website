@@ -151,7 +151,7 @@
             document.getElementById('podcast-image').src = data.data.layoutImageURL;
             } catch (error) {
             console.error('Error fetching podcasts:', error);
-            document.getElementById('podcast-list').innerHTML = '<p>Fehler beim Laden von Podcasts. Bitte probiere es später nochmal.</p>';
+            document.getElementById('podcast-list').innerHTML = '<p class="loading-message">Fehler beim Laden von Podcasts. Bitte probiere es später nochmal.</p>';
 
             }
         }
@@ -198,7 +198,7 @@
             document.getElementById('audio-player').load();
             } catch (error) {
             console.error('Error fetching podcasts:', error);
-            document.getElementById('podcast-list').innerHTML = '<p>Fehler beim Laden von Podcasts. Bitte probiere es später nochmal.</p>';
+            document.getElementById('podcast-list').innerHTML = '<p class="loading-message">Fehler beim Laden von Podcasts. Bitte probiere es später nochmal.</p>';
             
 
         }
@@ -230,7 +230,7 @@
         
     } catch (error) {
         console.error('Error fetching podcasts:', error);
-        document.getElementById('episodes-div').innerHTML = '<p>Fehler beim Laden von Podcasts. Bitte probiere es später nochmal.</p>';
+        document.getElementById('episodes-div').innerHTML = '<p class="loading-message">Fehler beim Laden von Podcasts. Bitte probiere es später nochmal.</p>';
     }
 }
     function fetchNewAudio(change)

@@ -79,7 +79,7 @@ async function fetchPodcasts(title, page) {
     const resultsDiv = document.getElementById('search');
 
     if (page === 0) {
-        resultsDiv.innerHTML = 'Suche läuft...';
+        resultsDiv.innerHTML = '<p class="loading-message">Suche läuft...</p>';
     }
 
     // Remove the "more" button if it exists
@@ -269,7 +269,7 @@ async function getCategories() {
         
     } catch (error) {
         console.error('Error fetching categories:', error);
-        document.getElementById("categoryContainer").innerHTML = '<p>Fehler beim Laden von Kategorien. Bitte probiere es später nochmal.</p>';
+        document.getElementById("categoryContainer").innerHTML = '<p class="loading-message">Fehler beim Laden von Kategorien. Bitte probiere es später nochmal.</p>';
     }
 }
 
