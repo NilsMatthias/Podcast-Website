@@ -188,7 +188,7 @@ body.drawer-open .drawer {
 }
 
 .loading-message {
-    padding-left: 10px;
+    text-align: center;
     margin-top: 0px;
     width: 100%;
 }
@@ -196,9 +196,6 @@ body.drawer-open .drawer {
 .unterüberschrift {
     width: 100%;
     padding-left: 20px;
-    padding-bottom: 10px;
-    font-weight: bold;
-    
 }
 
 .grid {
@@ -215,6 +212,7 @@ body.drawer-open .drawer {
     overflow-y: hidden;
     justify-items: start; /* Elemente im Grid linksbündig ausrichten */
     grid-auto-flow: column;
+    max-width: fit-content;
     
     
 }
@@ -256,6 +254,25 @@ body.drawer-open .drawer {
 .fav-div img {
     height: 200px; 
     object-fit: cover; 
+    border-radius: 1rem;
+}
+
+.fav-div{
+    
+    display: grid;
+   /* grid-template-rows: repeat(auto-fit, minmax(200px, 1fr));
+    ;*/
+    grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));
+    gap: 20px;
+    padding: 20px;
+    width: 100%;
+    grid-auto-flow: column;   /* Elemente in einer Spalte anordnen */
+    grid-auto-columns: minmax(200px,200px); /* Größe der Grid-Items */
+    overflow-x: auto;   
+    overflow-y: hidden;
+    justify-items: start; /* Elemente im Grid linksbündig ausrichten */
+    grid-auto-flow: column;
+    max-width: fit-content;
 }
 
 
