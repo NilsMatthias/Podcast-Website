@@ -79,7 +79,7 @@ async function fetchPodcasts(title, page) {
     const resultsDiv = document.getElementById('search');
 
     if (page === 0) {
-        resultsDiv.innerHTML = '<p class="loading-message">Suche läuft...</p>';
+        resultsDiv.innerHTML = '<p class="loading-message suche">Suche läuft...</p>';
     }
 
     // Remove the "more" button if it exists
@@ -110,15 +110,25 @@ async function fetchPodcasts(title, page) {
 
         // Add "more" button if there are more results
         if (data.data.length > 0) {
-            const moreBtn = document.createElement('input');
-            moreBtn.setAttribute("type", "button");
-            moreBtn.setAttribute("value", "more");
+            // Create the button element with Material Icon
+            const moreBtn = document.createElement('button');
+            moreBtn.className = "more-button";
             moreBtn.setAttribute("id", "more-btn-search"); // ID for the button
             moreBtn.addEventListener('click', function () {
                 console.log("moreBtn");
                 fetchPodcasts(title, page + 1);
             });
-            resultsDiv.appendChild(moreBtn); // Add button to container
+
+            // Create the icon element
+            const icon = document.createElement('i');
+            icon.className = "material-icons";
+            icon.textContent = "arrow_circle_right"; // Name of the Material Icon
+
+            // Append the icon to the button
+            moreBtn.appendChild(icon);
+
+            // Append the button to the container
+            resultsDiv.appendChild(moreBtn);
         } else {
             resultsDiv.innerHTML = 'Keine weiteren Ergebnisse.';
         }
@@ -127,6 +137,7 @@ async function fetchPodcasts(title, page) {
         console.error('Error fetching podcasts:', error);
         resultsDiv.innerHTML = '<p class="loading-message">Fehler beim Laden von Podcasts. Bitte probiere es später nochmal.</p>';
     }
+
 }
 
 async function fetchRecommendedPodcasts() {
