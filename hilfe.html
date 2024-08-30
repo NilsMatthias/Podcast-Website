@@ -4,11 +4,15 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Hilfe - Easy Play</title>
+    <title>Easy Play</title>
     <link rel="stylesheet" type="text/css" href="style.css">
-</head>
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
+    <script src="scripts/main.js"> </script>
+    <script src="scripts/favourites.js"> </script>
 
+</head>
 <body>
+
     <header class="header">
         <div class="header-container">
             <div class="header-logo">
@@ -16,27 +20,31 @@
                     <img src="audio-waves.png" alt="Logo">
                 </a>
             </div>
-            <span class="header-title">Easy Play - Hilfe</span>
+            <span class="header-title">Easy Play</span>
 
             <nav class="header-nav">
                 <ul class="nav-list">
                     <li><a href="index.html">Home</a></li>
                     <li><a href="fav.html">Favoriten</a></li>
-                    <li><a href="hilfe.html">Hilfe</a></li>
                 </ul>
             </nav>
+            <div class="header-actions">
+        
+                <button id="menuButton" class="menu-button">
+                    <span class="material-icons">menu</span>
+                </button>
+            </div>
         </div>
     </header>
-
     <main class="layout-content">
         <h1>Hilfe und Support</h1>
 
-        <section>
+        <div>
             <h2>Überblick</h2>
             <p>Willkommen bei "Easy Play"! Diese Webseite ermöglicht es Ihnen, Ihre Lieblingspodcasts zu entdecken, zu hören und zu verwalten. Nutzen Sie die nachstehenden Anweisungen, um sich mit den Hauptfunktionen unserer Seite vertraut zu machen.</p>
-        </section>
+        </div>
 
-        <section>
+        <div>
             <h2>Navigation</h2>
             <img src="images/Navigation.png" style="height: 30px;">
             
@@ -46,9 +54,9 @@
                 <li><strong>Favoriten:</strong> Zeigt Ihre gespeicherten Lieblingspodcasts an.</li>
                 <li><strong>Hilfe:</strong> Auf dieser Seite finden Sie Unterstützung und Anleitungen zur Nutzung der Webseite.</li>
             </ul>
-        </section>
+        </div>
 
-        <section>
+        <div>
             <h2>Podcasts suchen</h2><img src="images/Search.png" alt="" style="height: 30px;"><img src="images/Searchbar.png" style="height: 30px;">
             
             <p>Um nach einem bestimmten Podcast zu suchen:</p>
@@ -57,7 +65,7 @@
                 <li>Geben Sie den Titel des Podcasts in das Suchfeld ein.</li>
                 <li>Klicken Sie auf die Schaltfläche "Suchen", um die Ergebnisse anzuzeigen.</li>
             </ol>
-        </section>
+        </div>
 
         <section>
             <h2>Podcasts zu Favoriten hinzufügen</h2><img src="Stern.png" alt="" style="height: 30px;">
