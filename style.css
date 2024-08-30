@@ -213,6 +213,7 @@ body.drawer-open .drawer {
     justify-items: start; /* Elemente im Grid linksbündig ausrichten */
     grid-auto-flow: column;
     
+    
 }
 
 
@@ -223,7 +224,6 @@ body.drawer-open .drawer {
     height: 100%;
     /*Üdisplay: flex;*/
     transition: transform 0.3s ease;
-    
 
 }
 
@@ -299,6 +299,7 @@ body.drawer-open .drawer {
 .episode-dashboard {
     text-align: left;
     width: 100%;
+    padding-bottom: 50px;
 
 
 }
@@ -349,11 +350,10 @@ body.drawer-open .drawer {
     margin: 10px 0;
     font-size: 2em;
 }
-
-
-#episodes-div button {
-    display: block;
-    width: 100%;
+.episode-container {
+    margin-bottom: 10px; /* Abstand zwischen den Episoden */
+    display: flex;
+    align-items: center;
     padding: 10px;
     margin-bottom: 10px;
     border: none;
@@ -366,11 +366,29 @@ body.drawer-open .drawer {
     transition: background-color 0.3s;
 }
 
-#episodes-div button:hover {
-    background-color: #474846; /* Hintergrundfarbe beim Hover */
-    color: #FFF; /* Textfarbe beim Hover */
+.episode-button {
+    padding: 5px;
+    border: none;
+    background-color: rgb(226, 222, 222);
+   
+    cursor: pointer;
+    transition: background-color 0.3s;
 }
 
+
+
+
+.episode-play-icon {
+    margin-right: 20px;
+}
+.episode-title {
+    flex: 1;
+}
+.episode-time {
+    margin-left: auto; /* Schiebt die Zeit ans Ende des flex-Containers */
+    font-size: 14px;
+    color: grey;
+}
 .audio-hidden {
     display: none;
     
