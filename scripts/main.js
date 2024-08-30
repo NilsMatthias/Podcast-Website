@@ -317,25 +317,33 @@ async function fetchCategoryPodcasts(id, name, page) {
 
         // Entferne die Lade-Nachricht
         const loadingMessage = document.getElementById('loading-message');
-        if (loadingMessage) {
-            resultsDiv.removeChild(loadingMessage);
+        if (data.data.length > 0) {
+            // Create the button element with Material Icon
+            const moreBtn = document.createElement('button');
+            moreBtn.className = "more-button";
+            moreBtn.setAttribute("id", "more-btn-search"); // ID for the button
+            moreBtn.addEventListener('click', function () {
+                console.log("moreBtn");
+                fetchPodcasts(title, page + 1);
+            });
+
+            // Create the icon element
+            const icon = document.createElement('i');
+            icon.className = "material-icons";
+            icon.textContent = "arrow_circle_right"; // Name of the Material Icon
+
+            // Append the icon to the button
+            moreBtn.appendChild(icon);
+
+            // Append the button to the container
+            resultsDiv.appendChild(moreBtn);
+        } else {
+            resultsDiv.innerHTML = 'Keine weiteren Ergebnisse.';
         }
 
-        // Erstelle oder repositioniere den "More"-Button ans Ende
-        const moreBtn = document.createElement('input');
-        moreBtn.setAttribute("type", "button");
-        moreBtn.setAttribute("value", "more");
-        moreBtn.setAttribute("id", "more-btn");  // Füge eine ID hinzu, um den Button später leicht zu finden
-        moreBtn.addEventListener('click', function () {
-            console.log("moreBtn");
-            fetchCategoryPodcasts(id, name, page + 1);
-        });
-
-        resultsDiv.appendChild(moreBtn);  // Füge den Button ans Ende des Inhalts ein
-
     } catch (error) {
-        console.error('Error fetching category podcasts:', error);
-        document.getElementById("categoryResult").innerHTML = '<p class="loading-message">Fehler beim Laden von Podcasts. Bitte probiere es später nochmal.</p>';
+        console.error('Error fetching podcasts:', error);
+        resultsDiv.innerHTML = '<p class="loading-message">Fehler beim Laden von Podcasts. Bitte probiere es später nochmal.</p>';
     }
 }
 
