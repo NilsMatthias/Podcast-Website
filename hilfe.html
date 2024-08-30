@@ -36,6 +36,18 @@
             </div>
         </div>
     </header>
+    <div class="drawer" id="drawer">
+        <button id="closeButton" class="close-button">
+            <span class="material-icons">close</span>
+        </button>
+        <nav class="drawer-nav">
+            <ul class="drawer-list">
+                <li><a href="index.html">Home</a></li>
+                <li><a href="fav.html">Favoriten</a></li>
+                <li><a href="hilfe.html">Hilfe</a></li>
+            </ul>
+        </nav>
+    </div>
     <main class="help-content">
         <h1>Hilfe und Support</h1>
 
@@ -107,12 +119,16 @@
         </section>
     </main>
 
-    <footer class="footer-rahmen">
-        <div class="footer-logo">Easy Play</div>
-        <div class="footer-links">
-            <a href="fav.html">Zu deinen Favoriten</a>
-            <br><br>
-            <a href="hilfe.html">Hilfe</a>
+    <footer class="footer">
+        <div class="footer-section footer-left">
+            <span>Nils Matthias</span>
+        </div>
+        <div class="footer-section footer-center">
+            
+            <span>Easy Play</span>
+        </div>
+        <div class="footer-section footer-right">
+            <span>Leonie Weinert<span>
         </div>
     </footer>
 
@@ -136,6 +152,10 @@
             if (searchBar.classList.contains('visible')) {
             document.getElementById('search-title').focus();
             }       
+         });
+
+         document.getElementById('closeButton').addEventListener('click', function() {
+            document.body.classList.remove('drawer-open');
          });
     </script>
 

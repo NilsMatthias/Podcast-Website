@@ -43,6 +43,9 @@
         </div>
     </header>
     <div class="drawer" id="drawer">
+        <button id="closeButton" class="close-button">
+            <span class="material-icons">close</span>
+        </button>
         <nav class="drawer-nav">
             <ul class="drawer-list">
                 <li><a href="index.html">Home</a></li>
@@ -151,6 +154,9 @@ function removeFavourite(podcastId) {
 
     alert("Podcast wurde aus den Favoriten entfernt!");
 }
+           document.getElementById('closeButton').addEventListener('click', function() {
+            document.body.classList.remove('drawer-open');
+         });
     </script>
 
 </body>

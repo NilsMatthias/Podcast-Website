@@ -17,10 +17,7 @@ main{
     flex: 1;
     border-bottom: 1px solid #797272;
 }
-.help-h1 {
-    align-items: center;
-    justify-content: center;
-}
+
 .help-content {
     margin-top: 60px;
     display: flex;
@@ -129,12 +126,23 @@ main{
 .drawer .drawer-nav .drawer-list li {
     padding: 15px 20px;
 }
+.drawer .drawer-nav .drawer-list li:hover {
+    background-color: #474846; /* Hintergrundfarbe beim Hover */
+
+}
+.drawer .drawer-nav .drawer-list li:hover a{
+    color: #faf5f5;
+}
+
 
 .drawer .drawer-nav .drawer-list li a {
     text-decoration: none;
     color: #333;
     display: block;
 }
+
+
+
 
 
 body.drawer-open .drawer {
@@ -456,7 +464,13 @@ body.drawer-open .drawer {
     color: grey;
 }
 
+.episode-description {
+    margin-left: 20px;
+    display: none;
+    padding-bottom: 20px;
+    
 
+}
 .audio-hidden {
     display: none;
     
@@ -559,19 +573,36 @@ a:any-link {
 }
 
 
-.footer-rahmen {
-    background-color: white;
-    padding: 20px;
-    
-}
-.footer-logo {
-    text-align: left;
+.footer {
+    display: flex;                 /* Flexbox-Layout aktivieren */
+    justify-content: space-between; /* Elemente gleichmäßig verteilen */
+    align-items: center;           /* Elemente vertikal zentrieren */
+    padding: 20px;                 /* Innenabstand für den Footer */
+    background-color: white;        /* Hintergrundfarbe des Footers */
+    color: black;                  /* Textfarbe im Footer */
 }
 
-.footer-links  {
-    color: #4d3b3b;
-    text-align: center;
+.footer-section {
+    flex: 1;                       /* Alle Abschnitte gleichmäßig verteilen */
+    text-align: center;            /* Zentriere Text */
+}
 
+.footer-left {
+    text-align: left;              /* Text linksbündig ausrichten */
+}
+
+.footer-right {
+    text-align: right;             /* Text rechtsbündig ausrichten */
+}
+
+.footer a {
+    color: black;                  /* Linkfarbe */
+    text-decoration: none;         /* Keine Unterstreichung für Links */
+    margin: 0 10px;                /* Horizontaler Abstand zwischen Links */
+}
+
+.footer a:hover {
+    text-decoration: underline;    /* Unterstreichung beim Hover */
 }
 
 @media (min-width: 990px) {

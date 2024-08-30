@@ -41,6 +41,9 @@
         </div>
     </header>
     <div class="drawer" id="drawer">
+        <button id="closeButton" class="close-button">
+            <span class="material-icons">close</span>
+        </button>
         <nav class="drawer-nav">
             <ul class="drawer-list">
                 <li><a href="index.html">Home</a></li>
@@ -98,6 +101,11 @@
         
     </main>
     <script>
+
+
+            
+
+
         var episodeCount = 20;
         var URLplaying = null;
         document.getElementById('menuButton').addEventListener('click', function() {
@@ -307,7 +315,17 @@ function insertEpisodes(data) {
         divEpisode.appendChild(title);
         divEpisode.appendChild(time);
 
+        divEpisode.addEventListener('click', function() {
+            // Umschalten der Sichtbarkeit der Beschreibung
+            if (description.style.display === "none" || description.style.display === "") {
+                description.style.display = "block";
+            } else {
+                description.style.display = "none";
+            }
+        });
+
         resultsDiv.appendChild(divEpisode);
+        description.className = "episode-description";
         resultsDiv.appendChild(description);
     });
 }
@@ -380,6 +398,9 @@ function loadEpisode(episodeUrl) {
     audioContainer.classList.remove('audio-hidden');
     audioPlayer.play();
 }
+document.getElementById('closeButton').addEventListener('click', function() {
+            document.body.classList.remove('drawer-open');
+         });
 
         
     </script>
