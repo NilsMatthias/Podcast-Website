@@ -350,7 +350,7 @@ function loadEpisode(episodeUrl) {
             favorites.push(podcastId);
             localStorage.setItem('favorites', JSON.stringify(favorites));
             document.getElementById("fav-btn-image").src="images/Haken.png";
-            alert("Podcast wurde zu den Favoriten hinzugefügt!");
+            //alert("Podcast wurde zu den Favoriten hinzugefügt!");
         } else {
             alert("Podcast ist bereits in den Favoriten.");
         }

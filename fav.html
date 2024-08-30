@@ -131,6 +131,7 @@
     location.reload(); // Aktualisiert die Seite
 };
         link.href = `podcastDash.html?id=${encodeURIComponent(id)}`;
+        link.target = `_blank`;
         podcastTitle.innerHTML = data.data.title;
         podcastImage.src = data.data.layoutImageURL;
         podcastDiv.appendChild(podcastImage);

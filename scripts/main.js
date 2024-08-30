@@ -42,7 +42,7 @@ async function insertFavouriteEpisodes(id){
         const link = document.createElement("a");
         link.href = `podcastDash.html?id=${encodeURIComponent(id)}`;
         link.target = "_blank";
-        podcastTitle.innerHTML = data.data.episodes[0].title;
+        podcastTitle.innerHTML = limitToXWords( data.data.episodes[0].title,6);
         podcastImage.src = data.data.layoutImageURL;
         podcastDiv.appendChild(podcastImage);
         podcastDiv.appendChild(podcastTitle);
@@ -113,6 +113,7 @@ async function fetchPodcasts(title, page) {
             // Create the button element with Material Icon
             const moreBtn = document.createElement('button');
             moreBtn.className = "more-button";
+            moreBtn.style = "border: none; background: white;"
             moreBtn.setAttribute("id", "more-btn-search"); // ID for the button
             moreBtn.addEventListener('click', function () {
                 console.log("moreBtn");
@@ -120,10 +121,9 @@ async function fetchPodcasts(title, page) {
             });
 
             // Create the icon element
-            const icon = document.createElement('i');
-            icon.className = "material-icons";
-            icon.textContent = "arrow_circle_right"; // Name of the Material Icon
-
+            const icon = document.createElement('img');
+            icon.src = "images/arrow_right.png";
+            icon.style = "height: 90px; margin-bottom: 125px; padding-left: 40px"
             // Append the icon to the button
             moreBtn.appendChild(icon);
 
@@ -246,7 +246,13 @@ function makeid(length) {
     }
     return result;
 }
-
+function limitToXWords(input,x) {
+    const words = input.split(" "); // Teilt den String in ein Array von Wörtern
+    if (words.length > x) {
+      return words.slice(0, x).join(" "); // Begrenze auf die ersten 10 Wörter
+    }
+    return input; // Gebe den originalen String zurück, wenn es 10 oder weniger Wörter sind
+  }
 
 
 async function getCategories() {
@@ -320,18 +326,23 @@ async function fetchCategoryPodcasts(id, name, page) {
         if (loadingMessage) {
             resultsDiv.removeChild(loadingMessage);
         }
+// Erstelle oder repositioniere den "More"-Button ans Ende
+const moreBtn = document.createElement('button'); // Ändere 'input' zu 'button'
+moreBtn.setAttribute("type", "button");  // Setze den Typ für den Button
+moreBtn.setAttribute("id", "more-btn"); // Füge eine ID hinzu, um den Button später leicht zu finden
+moreBtn.style = "border: none; background: white;"
+moreBtn.addEventListener('click', function () {
+    console.log("moreBtn");
+    fetchCategoryPodcasts(id, name, page + 1);
+});
 
-        // Erstelle oder repositioniere den "More"-Button ans Ende
-        const moreBtn = document.createElement('input');
-        moreBtn.setAttribute("type", "button");
-        moreBtn.setAttribute("value", "more");
-        moreBtn.setAttribute("id", "more-btn");  // Füge eine ID hinzu, um den Button später leicht zu finden
-        moreBtn.addEventListener('click', function () {
-            console.log("moreBtn");
-            fetchCategoryPodcasts(id, name, page + 1);
-        });
-
-        resultsDiv.appendChild(moreBtn);  // Füge den Button ans Ende des Inhalts ein
+const icon = document.createElement('img');
+icon.src = "images/arrow_right.png";
+icon.style.height = "90px";
+icon.style.marginBottom = "140px";
+icon.style.paddingLeft = "40px";
+moreBtn.appendChild(icon); // Füge das Bild dem Button hinzu
+resultsDiv.appendChild(moreBtn); // Füge den Button dem Container hinzu  // Füge den Button ans Ende des Inhalts ein
 
     } catch (error) {
         console.error('Error fetching category podcasts:', error);
