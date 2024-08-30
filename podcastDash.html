@@ -71,7 +71,7 @@
             <div class="title-description podcast-details-right">
                 <h1 id="podcast-title" class="podcast-title-dash"></h1>
                 <p id="podcast-description" class="description-dash"></p>
-                <input id="play-button" class="button-play button-design" type="button" value="play" onclick="playAudio();"/>
+
                 <input id="clickMe" class="button-fav button-design" type="button" value="add to favorite" onclick="addFavourite();" />
             </div>
         </div>
@@ -270,7 +270,8 @@ function insertEpisodes(data) {
         image.src = "play-button.png";
         image.style = "height: 30px";
         image.className = "episode-play-icon";
-
+        const description = document.createElement("div");
+        description.innerHTML = element.description;
         const title = document.createElement("div");
         title.className = "episode-title";
         title.innerHTML = element.title;
@@ -297,6 +298,7 @@ function insertEpisodes(data) {
         divEpisode.appendChild(time);
 
         resultsDiv.appendChild(divEpisode);
+        resultsDiv.appendChild(description);
     });
 }
 
