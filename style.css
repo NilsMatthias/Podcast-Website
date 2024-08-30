@@ -728,3 +728,192 @@ a:any-link {
         display: block; 
     }
 }
+
+/*Animation*/
+
+@keyframes one {
+  0% {
+    transform: scaleY(0.7);
+  }
+  20% {
+    transform: scaleY(1.5);
+  }
+  40% {
+    transform: scaleY(0.3);
+  }
+  60% {
+    transform: scaleY(1.1);
+  }
+  80% {
+    transform: scaleY(0.8);
+  }
+  100% {
+    transform: scaleY(0.7);
+  }
+}
+
+@keyframes two {
+  0% {
+    transform: scaleY(1);
+  }
+  20% {
+    transform: scaleY(0.6);
+  }
+  40% {
+    transform: scaleY(1.2);
+  }
+  60% {
+    transform: scaleY(0.5);
+  }
+  80% {
+    transform: scaleY(1.4);
+  }
+  100% {
+    transform: scaleY(1);
+  }
+}
+
+@keyframes three {
+    0% {
+      transform: scaleY(1.4);
+    }
+    15% {
+      transform: scaleY(2.5); /* Peak occurs earlier at 15% */
+    }
+    30% {
+      transform: scaleY(0.9);
+    }
+    45% {
+      transform: scaleY(1.8);
+    }
+    60% {
+      transform: scaleY(0.7);
+    }
+    75% {
+      transform: scaleY(1.3);
+    }
+    100% {
+      transform: scaleY(1.4);
+    }
+  }
+  
+  @keyframes four {
+    0% {
+      transform: scaleY(1.2);
+    }
+    30% {
+      transform: scaleY(1.7);
+    }
+    50% {
+      transform: scaleY(2.5); /* Peak occurs at 50% */
+    }
+    70% {
+      transform: scaleY(0.4);
+    }
+    85% {
+      transform: scaleY(1.6);
+    }
+    100% {
+      transform: scaleY(1.2);
+    }
+  }
+  
+  @keyframes five {
+    0% {
+      transform: scaleY(0.6);
+    }
+    25% {
+      transform: scaleY(1.3);
+    }
+    55% {
+      transform: scaleY(0.8);
+    }
+    75% {
+      transform: scaleY(2.5); /* Peak occurs later at 75% */
+    }
+    85% {
+      transform: scaleY(0.7);
+    }
+    100% {
+      transform: scaleY(0.6);
+    }
+  }
+
+@keyframes six {
+  0% {
+    transform: scaleY(1.1);
+  }
+  20% {
+    transform: scaleY(0.5);
+  }
+  40% {
+    transform: scaleY(1.6);
+  }
+  60% {
+    transform: scaleY(0.9);
+  }
+  80% {
+    transform: scaleY(1.2);
+  }
+  100% {
+    transform: scaleY(1.1);
+  }
+}
+
+@keyframes seven {
+  0% {
+    transform: scaleY(0.9);
+  }
+  20% {
+    transform: scaleY(1.4);
+  }
+  40% {
+    transform: scaleY(0.6);
+  }
+  60% {
+    transform: scaleY(1.8);
+  }
+  80% {
+    transform: scaleY(0.7);
+  }
+  100% {
+    transform: scaleY(0.9);
+  }
+}
+
+  
+  .boxContainer {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    height: 64px;
+    --boxSize: 3px;
+    --gutter: 3px;
+    width: calc((var(--boxSize) + var(--gutter)) * 7);
+  }
+  
+  .box {
+    transform: scaleY(1);
+    animation-play-state: inherit;
+    height: 20%;
+    width: var(--boxSize);
+    background: #000000;
+    animation-duration: 2s;
+    animation-timing-function: ease-in-out;
+    animation-iteration-count: infinite;
+    border-radius: 8px;
+  }
+  
+  .box1 { animation-name: one; animation-delay: 0s;  }
+  .box2 { animation-name: two; animation-delay: 0.2s; }
+  .box3 { animation-name: three; animation-delay: 0.1s; }
+  .box4 { animation-name: four; animation-delay: 0.3s; }
+  .box5 { animation-name: five; animation-delay: 0.4s; }
+  .box6 { animation-name: six; animation-delay: 0.25s; }
+  .box7 { animation-name: seven; animation-delay: 0.35s; }
+
+  #loadingAnimation {
+    display: flex; /* Make sure it is always visible */
+    animation-play-state: paused; /* Initial state is paused */
+    /* Your existing animation properties */
+}

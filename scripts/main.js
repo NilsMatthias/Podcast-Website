@@ -78,6 +78,7 @@ function searchPodcasts() {
 }
 
 async function fetchPodcasts(title, page) {
+    showLoadingAnimation();
     let url = new URL('https://api.fyyd.de/0.2/search/podcast/');
     url.searchParams.append('title', title);
     url.searchParams.append('page', page);
@@ -144,10 +145,12 @@ async function fetchPodcasts(title, page) {
         console.error('Error fetching podcasts:', error);
         resultsDiv.innerHTML = '<p class="loading-message">Fehler beim Laden von Podcasts. Bitte probiere es später nochmal.</p>';
     }
+    hideLoadingAnimation();
 
 }
 
 async function fetchRecommendedPodcasts() {
+    showLoadingAnimation();
     let url = new URL('https://api.fyyd.de/0.2/podcasts/');
     url.searchParams.append('page',getRandomInt(1370));
     url.searchParams.append('count',30);
@@ -161,6 +164,7 @@ async function fetchRecommendedPodcasts() {
         document.getElementById('podcast-list').innerHTML = '<p class="loading-message">Fehler beim Laden empfohlener Podcasts. Bitte probiere es später nochmal.</p>';
 
     }
+    hideLoadingAnimation();
 }
 function getRandomInt(max){
     return Math.floor(Math.random() * max);
@@ -306,6 +310,7 @@ async function getCategories() {
 }
 
 async function fetchCategoryPodcasts(id, name, page) {
+    showLoadingAnimation();
     let url = new URL('https://api.fyyd.de/0.2/category');
     url.searchParams.append('category_id', id);
     url.searchParams.append('page', page);
@@ -362,6 +367,7 @@ resultsDiv.appendChild(moreBtn); // Füge den Button dem Container hinzu  // Fü
         console.error('Error fetching category podcasts:', error);
         document.getElementById("categoryResult").innerHTML = '<p class="loading-message">Fehler beim Laden von Podcasts. Bitte probiere es später nochmal.</p>';
     }
+    hideLoadingAnimation();
 }
 
 function insertCategorySearchResults(data, isInitialLoad) {
@@ -391,4 +397,23 @@ function insertCategorySearchResults(data, isInitialLoad) {
 
         resultsDiv.appendChild(podcastDiv);
     });
+}
+
+function showLoadingAnimation() {
+    const loadingAnimation = document.getElementById('loadingAnimation');
+    if (loadingAnimation) {
+        loadingAnimation.style.animationPlayState = 'running'; // Start the animation
+        loadingAnimation.style.display = 'flex'; // Ensure it's visible
+    } else {
+        console.error("Loading animation element not found.");
+    }
+}
+
+function hideLoadingAnimation() {
+    const loadingAnimation = document.getElementById('loadingAnimation');
+    if (loadingAnimation) {
+        loadingAnimation.style.animationPlayState = 'paused'; // Pause the animation
+    } else {
+        console.error("Loading animation element not found.");
+    }
 }
