@@ -43,9 +43,13 @@ main{
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 10px 20px;
+    padding: 0px 20px;
     max-width: 1200px;
     margin: 0 auto;
+}
+
+.header-help {
+    padding: 10px 20px;
 }
 
 .header-logo img {
@@ -224,6 +228,7 @@ body.drawer-open .drawer {
     padding-left: 20px;
     padding-bottom: 10px;
     font-weight: bold;
+    font-size: 18px;
 }
 
 .grid {
@@ -411,6 +416,9 @@ body.drawer-open .drawer {
     justify-content: center;
    
     
+}
+#fav-btn-image {
+    padding-left: 30px;
 }
 
 
@@ -622,16 +630,19 @@ a:any-link {
     .img {
         margin-right: 20%;
     }
+    .podcast-details-right {
+        margin-right: 120px;
+    }
     .podcast-title-dash {
         margin-top: 0px;
         align-items: center;
         justify-content: center;
-        width: 80%;
+        width: 100%;
         margin-left: 5%;
         margin-top: 20px;
     }
     .description-dash {
-        width: 80%;
+        width: 100%;
         margin-left: 5%;
     }
     
